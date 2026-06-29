@@ -3,6 +3,14 @@
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { Award, Users, Lightbulb, Target } from "lucide-react";
+import { siteConfig } from "../config/siteConfig";
+
+const iconMap: Record<string, React.ElementType> = {
+  Award,
+  Users,
+  Lightbulb,
+  Target,
+};
 
 export function AboutSection() {
   const sectionRef = useRef(null);
@@ -15,12 +23,12 @@ export function AboutSection() {
   const rotateX = useTransform(scrollYProgress, [0, 1], [0, 360]);
   const scale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.8, 1.1, 1.1, 0.8]);
 
-  const stats = [
-    { icon: Award, value: "150+", label: "Awards Won", color: "#ffd700" },
-    { icon: Users, value: "500+", label: "Happy Clients", color: "#ffffff" },
-    { icon: Lightbulb, value: "1000+", label: "Ideas Realized", color: "#c0c0c0" },
-    { icon: Target, value: "99%", label: "Success Rate", color: "#ffd700" },
-  ];
+  const stats = siteConfig.company.about.statistics.map((s) => ({
+    icon: iconMap[s.icon] ?? Award,
+    value: s.value,
+    label: s.label,
+    color: s.color,
+  }));
 
   return (
     <section 
@@ -84,7 +92,7 @@ export function AboutSection() {
               <span className="text-white">About</span>
               <br />
               <span className="bg-gradient-to-r from-white via-[#c0c0c0] to-[#ffd700] bg-clip-text text-transparent">
-                KONCEPT
+                {siteConfig.company.about.title}
               </span>
             </h2>
             
@@ -99,21 +107,15 @@ export function AboutSection() {
             viewport={{ once: true }}
           >
             <p className="text-xl text-white/80 leading-relaxed">
-              We are <span className="text-[#ffd700]">visionaries</span> who transform the impossible into reality. 
-              Our journey began with a simple belief: that creativity combined with cutting-edge technology 
-              can reshape entire industries.
+              {siteConfig.company.about.paragraphs[0]}
             </p>
 
             <p className="text-xl text-white/70 leading-relaxed">
-              Every project is a <span className="text-white glow-white">masterpiece</span> in the making. 
-              We don't just build applications—we craft experiences that transcend expectations and 
-              redefine what's possible in the digital realm.
+              {siteConfig.company.about.paragraphs[1]}
             </p>
 
             <p className="text-xl text-white/70 leading-relaxed">
-              From <span className="text-[#c0c0c0]">concept to creation</span>, we are your partners in innovation, 
-              pushing boundaries and setting new standards for excellence in every pixel, every interaction, 
-              and every moment of user delight.
+              {siteConfig.company.about.paragraphs[2]}
             </p>
           </motion.div>
 

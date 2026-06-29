@@ -115,7 +115,7 @@ export function Footer() {
             >
               <motion.img
                 src={logo}
-                alt="KONCEPT Logo"
+                alt={`${siteConfig.company.name} Logo`}
                 className="h-20 w-auto"
                 animate={{
                   filter: [
@@ -152,9 +152,9 @@ export function Footer() {
             viewport={{ once: true }}
           >
             <p className="text-xl md:text-2xl text-white/70 max-w-4xl mx-auto leading-relaxed">
-              <span className="text-[#ffd700]">Transcending boundaries.</span>{" "}
-              <span className="text-white">Creating legacies.</span>{" "}
-              <span className="text-[#c0c0c0]">Inspiring futures.</span>
+              <span className="text-[#ffd700]">{siteConfig.footerTagline.phrase1}</span>{" "}
+              <span className="text-white">{siteConfig.footerTagline.phrase2}</span>{" "}
+              <span className="text-[#c0c0c0]">{siteConfig.footerTagline.phrase3}</span>
             </p>
             
             <p className="text-white/50 max-w-3xl mx-auto">

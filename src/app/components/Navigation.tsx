@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import logo from 'figma:asset/e9afabb7434f237f121fca51dffa09ee3fce323e.png';
+import { siteConfig } from "../config/siteConfig";
 
 const sections = [
   { name: 'Home', id: 'hero' },
@@ -86,7 +87,7 @@ export function Navigation() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
-                KONCEPT
+                {siteConfig.company.name}
               </motion.span>
             </motion.div>
 

@@ -1,53 +1,24 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
-import { Palette, Code, Zap, Globe, Eye, Cpu, Sparkles, Diamond } from "lucide-react";
+import { Palette, Code, Zap, Globe, Eye, Diamond, Sparkles } from "lucide-react";
 import { useRef } from "react";
+import { siteConfig } from "../config/siteConfig";
 
-const services = [
-  {
-    icon: Diamond,
-    title: "Premium Design",
-    description: "Crafting visually stunning experiences that captivate and inspire",
-    accent: "#ffffff",
-    gradient: "from-white/20 to-white/5",
-  },
-  {
-    icon: Code,
-    title: "Advanced Development",
-    description: "Building next-generation solutions with cutting-edge technology",
-    accent: "#c0c0c0",
-    gradient: "from-[#c0c0c0]/20 to-[#c0c0c0]/5",
-  },
-  {
-    icon: Zap,
-    title: "Motion & Animation",
-    description: "Bringing designs to life with fluid, captivating animations",
-    accent: "#ffd700",
-    gradient: "from-[#ffd700]/20 to-[#ffd700]/5",
-  },
-  {
-    icon: Globe,
-    title: "Digital Experiences",
-    description: "Creating immersive web applications that push boundaries",
-    accent: "#ffffff",
-    gradient: "from-white/20 to-white/5",
-  },
-  {
-    icon: Eye,
-    title: "User Experience",
-    description: "Designing intuitive interfaces that users absolutely love",
-    accent: "#c0c0c0",
-    gradient: "from-[#c0c0c0]/20 to-[#c0c0c0]/5",
-  },
-  {
-    icon: Cpu,
-    title: "AI Integration",
-    description: "Leveraging artificial intelligence for innovative solutions",
-    accent: "#ffd700",
-    gradient: "from-[#ffd700]/20 to-[#ffd700]/5",
-  },
-];
+const iconSequence = [Code, Eye, Palette, Globe, Zap, Diamond];
+const gradientMap: Record<string, string> = {
+  "#ffffff": "from-white/20 to-white/5",
+  "#c0c0c0": "from-[#c0c0c0]/20 to-[#c0c0c0]/5",
+  "#ffd700": "from-[#ffd700]/20 to-[#ffd700]/5",
+};
+
+const services = siteConfig.services.map((s, i) => ({
+  icon: iconSequence[i % iconSequence.length],
+  title: s.title,
+  description: s.description,
+  accent: s.accent,
+  gradient: gradientMap[s.accent] ?? "from-white/20 to-white/5",
+}));
 
 function ServiceCard({ service, index }: { service: any, index: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -278,8 +249,8 @@ export function ServicesSection() {
           <div className="w-32 h-1 bg-gradient-to-r from-[#ffd700] via-white to-transparent mx-auto mb-8" />
           
           <p className="text-2xl text-white/70 max-w-4xl mx-auto leading-relaxed">
-            Elevating your digital presence through <span className="text-[#ffd700]">innovative solutions</span> and 
-            <span className="text-white"> cutting-edge technology</span>
+            Delivering <span className="text-[#ffd700]">full-stack solutions</span> and 
+            <span className="text-white"> creative design</span> from Nepal to the world
           </p>
         </motion.div>
 
@@ -308,7 +279,7 @@ export function ServicesSection() {
           >
             <span className="relative z-10 flex items-center space-x-4">
               <Sparkles className="w-6 h-6" />
-              <span>Start Your Journey</span>
+              <span>Let's Work Together</span>
             </span>
             
             {/* Animated background */}

@@ -344,7 +344,7 @@ export function PortfolioSection() {
           viewport={{ once: true }}
         >
           <h2 className="text-6xl lg:text-8xl font-black leading-none mb-8">
-            <span className="text-white">Our</span>
+            <span className="text-white">My</span>
             <br />
             <span className="bg-gradient-to-r from-white via-[#c0c0c0] to-[#ffd700] bg-clip-text text-transparent">
               Portfolio
@@ -354,8 +354,8 @@ export function PortfolioSection() {
           <div className="w-32 h-1 bg-gradient-to-r from-[#ffd700] via-white to-transparent mx-auto mb-8" />
           
           <p className="text-2xl text-white/70 max-w-4xl mx-auto leading-relaxed">
-            Showcasing our most <span className="text-[#ffd700]">creative video content</span> and 
-            <span className="text-white"> innovative digital experiences</span>
+            Showcasing my <span className="text-[#ffd700]">web development</span> and 
+            <span className="text-white"> graphic design projects</span>
           </p>
         </motion.div>
       </div>
@@ -386,7 +386,7 @@ export function PortfolioSection() {
           viewport={{ once: true }}
         >
           <p className="text-white/40 text-sm uppercase tracking-wider mb-4">
-            Scroll to explore our creative universe
+            Scroll to explore my projects
           </p>
           <div className="flex justify-center space-x-2">
             {siteConfig.portfolio.map((_, i) => (

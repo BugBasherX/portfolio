@@ -193,7 +193,7 @@ export function HeroSection() {
           >
             <img
               src={logo}
-              alt="KONCEPT Logo"
+              alt={`${siteConfig.company.name} Logo`}
               className="h-24 w-auto"
             />
           </motion.div>

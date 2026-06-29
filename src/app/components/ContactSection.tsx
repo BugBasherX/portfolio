@@ -46,7 +46,7 @@ export function ContactSection() {
       setFormData({ name: "", email: "", subject: "", message: "" });
       
       // You can add a success notification here
-      alert('Message sent successfully! We\'ll get back to you soon.');
+      alert('Message sent! I\'ll get back to you soon.');
       
     } catch (error) {
       console.error('Error sending message:', error);
@@ -149,8 +149,8 @@ export function ContactSection() {
           <div className="w-32 h-1 bg-gradient-to-r from-[#ffd700] via-white to-transparent mx-auto mb-8" />
           
           <p className="text-2xl text-white/70 max-w-4xl mx-auto leading-relaxed">
-            Ready to <span className="text-[#ffd700]">transform your vision</span> into 
-            <span className="text-white"> extraordinary reality?</span>
+            Ready to <span className="text-[#ffd700]">bring your idea to life?</span> 
+            <span className="text-white"> Let's build something great together.</span>
           </p>
         </motion.div>
 
@@ -260,7 +260,7 @@ export function ContactSection() {
                   onChange={handleChange}
                   onFocus={() => setFocusedField('message')}
                   onBlur={() => setFocusedField(null)}
-                  placeholder="Tell us about your vision..."
+                  placeholder="Tell me about your project..."
                   required
                   rows={6}
                   className="w-full px-6 py-6 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-xl border border-white/10 rounded-2xl text-white placeholder-white/40 focus:border-white/30 focus:outline-none focus:glow-white transition-all duration-300 resize-none"

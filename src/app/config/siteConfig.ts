@@ -180,6 +180,13 @@ export const siteConfig = {
     ],
   },
 
+  // Footer tagline (three phrases shown in gold / white / silver)
+  footerTagline: {
+    phrase1: "Crafting digital experiences.",
+    phrase2: "Building lasting solutions.",
+    phrase3: "Inspiring through code.",
+  },
+
   // Copyright and Legal
   legal: {
     copyrightYear: "2025",
