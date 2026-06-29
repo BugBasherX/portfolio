@@ -421,6 +421,9 @@ export function ContactSection() {
                     style={{
                       backgroundColor: i % 2 === 0 ? "#ffffff15" : "#ffd70015",
                       border: `1px solid ${i % 2 === 0 ? "#ffffff20" : "#ffd70020"}`,
+                      transformOrigin: `${120 + i * 30}px center`,
+                      left: "50%",
+                      top: "50%",
                     }}
                     animate={{
                       rotateZ: [0, 360],
@@ -429,11 +432,6 @@ export function ContactSection() {
                       duration: 12 + i * 2,
                       repeat: Infinity,
                       ease: "linear",
-                    }}
-                    style={{
-                      transformOrigin: `${120 + i * 30}px center`,
-                      left: "50%",
-                      top: "50%",
                     }}
                   >
                     <Icon 

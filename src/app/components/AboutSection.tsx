@@ -220,6 +220,9 @@ export function AboutSection() {
                     i % 3 === 1 ?
                     "linear-gradient(45deg, #ffffff, #e5e4e2)" :
                     "linear-gradient(45deg, #c0c0c0, #808080)",
+                  transformOrigin: `${150 + i * 20}px center`,
+                  left: "50%",
+                  top: "50%",
                 }}
                 animate={{
                   rotateY: [0, 360],
@@ -229,11 +232,6 @@ export function AboutSection() {
                   duration: 8 + i,
                   repeat: Infinity,
                   ease: "linear",
-                }}
-                style={{
-                  transformOrigin: `${150 + i * 20}px center`,
-                  left: "50%",
-                  top: "50%",
                 }}
               >
                 <div className="absolute inset-0 rounded-full glow-white animate-pulse-glow" />

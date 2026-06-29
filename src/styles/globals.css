@@ -327,3 +327,28 @@ html {
   background-size: 200% 100%;
   animation: shimmer 2s infinite;
 }
+
+/* Reduced motion support (WCAG 2.1 Success Criterion 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-float,
+  .animate-pulse-glow,
+  .animate-shimmer {
+    animation: none !important;
+  }
+}
+
+/* Focus visibility for keyboard navigation (WCAG 2.4.7) */
+:focus-visible {
+  outline: 2px solid #ffd700;
+  outline-offset: 3px;
+  border-radius: 4px;
+}

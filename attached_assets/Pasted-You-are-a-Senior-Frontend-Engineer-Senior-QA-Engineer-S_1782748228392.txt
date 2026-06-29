@@ -1,0 +1,317 @@
+You are a Senior Frontend Engineer, Senior QA Engineer, SEO Specialist, Accessibility Expert, Performance Engineer, and Technical Lead.
+
+Your task is to perform a complete production readiness audit of this portfolio website.
+
+Do not assume anything is correct. Inspect every page, every component, every route, every asset, and every configuration.
+
+Your goal is to make this website production-ready and fully optimized for Google indexing.
+
+1. Website Functionality
+
+Verify that:
+
+Every page loads correctly.
+Every navigation link works.
+Every button functions correctly.
+Every CTA performs the expected action.
+Every modal opens and closes properly.
+Every form submits successfully.
+Every external link opens correctly.
+Every internal route works.
+Every download works.
+Every animation completes correctly.
+There are no JavaScript errors.
+There are no console warnings.
+There are no broken images.
+There are no missing assets.
+No placeholder text remains.
+No dead components exist.
+2. Responsive Design
+
+Test every page on:
+
+Mobile
+Tablet
+Laptop
+Desktop
+Ultrawide monitors
+
+Check:
+
+No overflow
+No horizontal scrolling
+Proper spacing
+Proper typography scaling
+Responsive images
+Responsive navigation
+Touch-friendly controls
+Proper grid alignment
+Consistent margins
+Proper padding
+Responsive cards
+Responsive hero section
+Responsive footer
+3. UI Consistency
+
+Inspect the entire design system.
+
+Verify:
+
+Consistent spacing
+Consistent typography
+Consistent icon sizes
+Consistent border radius
+Consistent shadows
+Consistent button styles
+Consistent animations
+Consistent color palette
+Consistent hover effects
+Consistent transitions
+Consistent layout hierarchy
+
+Identify every inconsistency.
+
+4. Accessibility
+
+Ensure WCAG compliance.
+
+Check:
+
+Semantic HTML
+Heading hierarchy
+aria-label usage
+alt text
+Keyboard navigation
+Focus indicators
+Color contrast
+Screen reader compatibility
+Form labels
+Skip navigation
+Reduced motion support
+
+Fix accessibility issues where possible.
+
+5. SEO
+
+Verify every page contains:
+
+Unique title
+Unique meta description
+Canonical URL
+Open Graph tags
+Twitter Card tags
+Proper heading hierarchy
+Descriptive URLs
+Image alt text
+Internal linking
+Structured data
+robots.txt
+sitemap.xml
+robots meta tags
+
+Check for:
+
+Duplicate content
+Duplicate titles
+Duplicate descriptions
+Missing canonical tags
+Missing metadata
+Missing schema
+
+Ensure Google can crawl every important page.
+
+6. Google Indexing Readiness
+
+Verify:
+
+robots.txt exists
+sitemap.xml exists
+HTTPS enabled
+Pages return HTTP 200
+No accidental noindex tags
+Canonical URLs are correct
+Pages are crawlable
+Internal links connect all pages
+Structured data validates
+Mobile friendliness
+Core Web Vitals readiness
+7. Performance
+
+Audit performance.
+
+Optimize:
+
+Images
+Fonts
+JavaScript
+CSS
+Lazy loading
+Code splitting
+Tree shaking
+Dynamic imports
+Compression
+Caching
+Bundle size
+
+Target:
+
+Lighthouse Performance ≥95
+LCP <2.5s
+CLS <0.1
+INP <200ms
+8. Animation Review
+
+Inspect every animation.
+
+Verify:
+
+Smoothness
+Timing
+Performance
+Easing
+Scroll animations
+Hover animations
+Page transitions
+Loading animations
+
+Animations should feel premium without causing layout shifts or frame drops.
+
+9. Content Review
+
+Check:
+
+Grammar
+Spelling
+Tone
+Readability
+Project descriptions
+About page
+Hero copy
+CTA clarity
+Contact information
+Resume download
+Social links
+
+Remove all placeholder or dummy content.
+
+10. Portfolio Quality
+
+Evaluate whether the portfolio demonstrates:
+
+Professionalism
+Design maturity
+Strong visual hierarchy
+Clear personal branding
+Premium UI
+Excellent UX
+Memorable first impression
+Recruiter-friendly presentation
+Fast information discovery
+Strong project storytelling
+
+Suggest improvements where necessary.
+
+11. Browser Compatibility
+
+Test in:
+
+Chrome
+Edge
+Firefox
+Safari
+
+Identify browser-specific issues.
+
+12. Technical Quality
+
+Inspect:
+
+Folder structure
+Component organization
+Reusable components
+Code duplication
+Naming conventions
+State management
+Error handling
+Environment variables
+API calls
+Loading states
+Empty states
+Error boundaries
+
+Recommend refactoring where appropriate.
+
+13. Security
+
+Verify:
+
+No exposed API keys
+Secure environment variables
+HTTPS
+Security headers
+Content Security Policy (CSP)
+Referrer Policy
+No sensitive information in client code
+14. Final Production Checklist
+
+Ensure:
+
+Production build succeeds
+No lint errors
+No TypeScript errors (if applicable)
+No console errors
+No failed network requests
+No broken routes
+No broken assets
+No hydration issues (if SSR)
+No memory leaks
+No performance regressions
+15. Final Report
+
+Produce a comprehensive report containing:
+
+Executive Summary
+Overall production readiness score (0–100%)
+Launch recommendation (Ready / Needs Minor Fixes / Not Ready)
+Findings
+
+Categorize issues as:
+
+Critical
+High
+Medium
+Low
+
+For each issue include:
+
+Description
+Location
+Impact
+Suggested fix
+SEO Report
+SEO score
+Missing metadata
+Structured data status
+Indexing readiness
+Core Web Vitals assessment
+Accessibility Report
+WCAG compliance status
+Violations
+Recommendations
+Performance Report
+Estimated Lighthouse scores
+Performance bottlenecks
+Optimization opportunities
+UI/UX Report
+Design consistency
+User experience observations
+Visual improvements
+Final Checklist
+
+Mark every audit item as:
+
+✅ Pass
+⚠️ Warning
+❌ Fail
+
+Do not stop after finding issues. Continue auditing until every page, component, asset, route, and configuration has been reviewed. Where safe and possible, automatically implement fixes before reporting the remaining issues. The final output should be suitable for a production deployment review.

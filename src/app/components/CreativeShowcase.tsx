@@ -269,6 +269,7 @@ export function CreativeShowcase() {
                   top: "50%",
                   marginLeft: "-8px",
                   marginTop: "-8px",
+                  transformOrigin: `${120 + i * 15}px center`,
                 }}
                 animate={{
                   rotateY: [0, 360],
@@ -278,9 +279,6 @@ export function CreativeShowcase() {
                   duration: 8 + i * 0.5,
                   repeat: Infinity,
                   ease: "linear",
-                }}
-                style={{
-                  transformOrigin: `${120 + i * 15}px center`,
                 }}
               >
                 <div 

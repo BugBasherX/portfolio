@@ -52,6 +52,7 @@ export function Navigation() {
     <>
       {/* Main Header Navigation */}
       <motion.header
+        role="banner"
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled 
             ? 'bg-black/80 backdrop-blur-xl border-b border-white/10' 
@@ -92,7 +93,7 @@ export function Navigation() {
             </motion.div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
+            <nav className="hidden md:flex items-center space-x-8" aria-label="Primary navigation">
               {sections.map((section, index) => (
                 <motion.button
                   key={section.id}
@@ -135,6 +136,9 @@ export function Navigation() {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
             >
               {isMobileMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -147,6 +151,9 @@ export function Navigation() {
 
         {/* Mobile Menu */}
         <motion.div
+          id="mobile-menu"
+          role="navigation"
+          aria-label="Mobile navigation"
           className={`md:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-xl border-b border-white/10 ${
             isMobileMenuOpen ? 'block' : 'hidden'
           }`}
@@ -176,7 +183,7 @@ export function Navigation() {
       </motion.header>
 
       {/* Right Side Dot Navigation */}
-      <nav className="fixed right-8 top-1/2 transform -translate-y-1/2 z-40 space-y-4 hidden lg:block">
+      <nav className="fixed right-8 top-1/2 transform -translate-y-1/2 z-40 space-y-4 hidden lg:block" aria-label="Section navigation">
         {sections.map((section, index) => (
           <motion.button
             key={section.id}

@@ -248,6 +248,8 @@ export function HeroSection() {
                 boxShadow: "0 0 40px rgba(255, 255, 255, 0.3)"
               }}
               whileTap={{ scale: 0.95 }}
+              aria-label="Explore the portfolio"
+              onClick={() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' })}
             >
               <span className="relative z-10 flex items-center space-x-3">
                 <Zap className="w-6 h-6" />
@@ -270,6 +272,8 @@ export function HeroSection() {
                 borderColor: "rgba(255, 215, 0, 0.8)"
               }}
               whileTap={{ scale: 0.95 }}
+              aria-label="Learn more about Yubraj Kurmi"
+              onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Learn More
             </motion.button>
