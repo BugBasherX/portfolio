@@ -73,7 +73,7 @@ export function Navigation() {
             >
               <motion.img
                 src={logo}
-                alt="KONCEPT Logo"
+                alt={`${siteConfig.company.name} Logo`}
                 className="h-10 w-auto"
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -196,6 +196,7 @@ export function Navigation() {
             whileHover={{ scale: activeSection === section.id ? 1.25 : 1.2 }}
             whileTap={{ scale: 0.9 }}
             title={section.name}
+          aria-label={`Navigate to ${section.name}`}
           >
             <motion.div
               className="absolute inset-0 rounded-full"

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Send, Mail, Phone, MapPin, MessageSquare, User, AtSign } from "lucide-react";
 import { siteConfig } from "../config/siteConfig";
 
@@ -15,42 +15,47 @@ export function ContactSection() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  const particles = useMemo(() =>
+    [...Array(50)].map((_, i) => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      width: `${Math.random() * 4 + 2}px`,
+      height: `${Math.random() * 4 + 2}px`,
+      colorIndex: i % 3,
+      duration: 4 + Math.random() * 4,
+      delay: Math.random() * 4,
+    })), []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus('idle');
     
     try {
       // TODO: Replace this with your actual form handling service
-      // Examples: Formspree, EmailJS, Netlify Forms, or your own API
-      
       // Example with Formspree (uncomment and replace YOUR_FORM_ID):
       /*
       const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
-      if (!response.ok) {
-        throw new Error('Failed to send message');
-      }
+      if (!response.ok) throw new Error('Failed to send message');
       */
       
       // Simulate API call for now
       await new Promise(resolve => setTimeout(resolve, 2500));
       
-      // Reset form on success
       setFormData({ name: "", email: "", subject: "", message: "" });
-      
-      // You can add a success notification here
-      alert('Message sent! I\'ll get back to you soon.');
+      setSubmitStatus('success');
+      setTimeout(() => setSubmitStatus('idle'), 6000);
       
     } catch (error) {
       console.error('Error sending message:', error);
-      alert('Failed to send message. Please try again.');
+      setSubmitStatus('error');
+      setTimeout(() => setSubmitStatus('idle'), 6000);
     } finally {
       setIsSubmitting(false);
     }
@@ -91,18 +96,18 @@ export function ContactSection() {
     <section id="contact" className="min-h-screen py-32 px-6 relative overflow-hidden bg-gradient-to-b from-[#1a1a1a] via-[#000000] to-[#1a1a1a]">
       {/* Background elements */}
       <div className="absolute inset-0">
-        {[...Array(50)].map((_, i) => (
+        {particles.map((p, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full opacity-20"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              width: `${Math.random() * 4 + 2}px`,
-              height: `${Math.random() * 4 + 2}px`,
-              background: i % 3 === 0 ? 
+              left: p.left,
+              top: p.top,
+              width: p.width,
+              height: p.height,
+              background: p.colorIndex === 0 ? 
                 "linear-gradient(45deg, #ffffff, #e5e4e2)" :
-                i % 3 === 1 ?
+                p.colorIndex === 1 ?
                 "linear-gradient(45deg, #c0c0c0, #a8a8a8)" :
                 "linear-gradient(45deg, #ffd700, #ffed4e)",
             }}
@@ -112,9 +117,9 @@ export function ContactSection() {
               y: [0, -50, 0],
             }}
             transition={{
-              duration: 4 + Math.random() * 4,
+              duration: p.duration,
               repeat: Infinity,
-              delay: Math.random() * 4,
+              delay: p.delay,
               ease: "easeInOut",
             }}
           />
@@ -163,17 +168,19 @@ export function ContactSection() {
             viewport={{ once: true }}
             className="relative"
           >
-            <form onSubmit={handleSubmit} className="space-y-8">
+            <form onSubmit={handleSubmit} className="space-y-8" noValidate>
               {/* Name and Email Row */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <motion.div
                   className="relative group"
                   whileFocus={{ scale: 1.02 }}
                 >
+                  <label htmlFor="contact-name" className="sr-only">Your Name</label>
                   <div className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10">
-                    <User className="w-5 h-5 text-white/40 group-focus-within:text-white transition-colors duration-300" />
+                    <User className="w-5 h-5 text-white/40 group-focus-within:text-white transition-colors duration-300" aria-hidden="true" />
                   </div>
                   <input
+                    id="contact-name"
                     type="text"
                     name="name"
                     value={formData.name}
@@ -182,6 +189,7 @@ export function ContactSection() {
                     onBlur={() => setFocusedField(null)}
                     placeholder="Your Name"
                     required
+                    autoComplete="name"
                     className="w-full pl-14 pr-6 py-6 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-xl border border-white/10 rounded-2xl text-white placeholder-white/40 focus:border-white/30 focus:outline-none focus:glow-white transition-all duration-300"
                   />
                   {focusedField === 'name' && (
@@ -198,10 +206,12 @@ export function ContactSection() {
                   className="relative group"
                   whileFocus={{ scale: 1.02 }}
                 >
+                  <label htmlFor="contact-email" className="sr-only">Your Email</label>
                   <div className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10">
-                    <AtSign className="w-5 h-5 text-white/40 group-focus-within:text-white transition-colors duration-300" />
+                    <AtSign className="w-5 h-5 text-white/40 group-focus-within:text-white transition-colors duration-300" aria-hidden="true" />
                   </div>
                   <input
+                    id="contact-email"
                     type="email"
                     name="email"
                     value={formData.email}
@@ -210,6 +220,7 @@ export function ContactSection() {
                     onBlur={() => setFocusedField(null)}
                     placeholder="Your Email"
                     required
+                    autoComplete="email"
                     className="w-full pl-14 pr-6 py-6 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-xl border border-white/10 rounded-2xl text-white placeholder-white/40 focus:border-white/30 focus:outline-none focus:glow-white transition-all duration-300"
                   />
                   {focusedField === 'email' && (
@@ -228,7 +239,9 @@ export function ContactSection() {
                 className="relative group"
                 whileFocus={{ scale: 1.02 }}
               >
+                <label htmlFor="contact-subject" className="sr-only">Subject</label>
                 <input
+                  id="contact-subject"
                   type="text"
                   name="subject"
                   value={formData.subject}
@@ -254,7 +267,9 @@ export function ContactSection() {
                 className="relative group"
                 whileFocus={{ scale: 1.02 }}
               >
+                <label htmlFor="contact-message" className="sr-only">Message</label>
                 <textarea
+                  id="contact-message"
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
@@ -275,11 +290,38 @@ export function ContactSection() {
                 )}
               </motion.div>
 
+              {/* Inline status messages */}
+              {submitStatus === 'success' && (
+                <motion.div
+                  role="status"
+                  aria-live="polite"
+                  className="flex items-center space-x-3 px-6 py-4 bg-green-500/10 border border-green-500/30 rounded-2xl text-green-400"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  <span className="text-xl">✓</span>
+                  <span>Message sent! I'll get back to you soon.</span>
+                </motion.div>
+              )}
+              {submitStatus === 'error' && (
+                <motion.div
+                  role="alert"
+                  aria-live="assertive"
+                  className="flex items-center space-x-3 px-6 py-4 bg-red-500/10 border border-red-500/30 rounded-2xl text-red-400"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  <span className="text-xl">✗</span>
+                  <span>Failed to send message. Please try again.</span>
+                </motion.div>
+              )}
+
               {/* Submit Button */}
               <motion.button
                 type="submit"
                 disabled={isSubmitting}
-                className="group relative w-full px-8 py-6 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl text-white text-lg overflow-hidden transition-all duration-300"
+                aria-busy={isSubmitting}
+                className="group relative w-full px-8 py-6 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl text-white text-lg overflow-hidden transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
                 whileHover={{ 
                   scale: 1.02,
                   boxShadow: "0 0 50px rgba(255, 255, 255, 0.2)"
@@ -298,7 +340,7 @@ export function ContactSection() {
                     </>
                   ) : (
                     <>
-                      <Send className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" />
+                      <Send className="w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" aria-hidden="true" />
                       <span>Send Message</span>
                     </>
                   )}

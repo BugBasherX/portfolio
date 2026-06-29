@@ -1,14 +1,25 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "motion/react";
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo, useEffect } from "react";
 import { ExternalLink, Play, Star, Eye, X, Youtube } from "lucide-react";
 import { siteConfig } from "../config/siteConfig";
 
 // Video Player Modal Component
 function VideoModal({ videoId, title, onClose }: { videoId: string; title: string; onClose: () => void }) {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
   return (
     <motion.div
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Video: ${title}`}
       className="fixed inset-0 bg-black/90 backdrop-blur-xl z-50 flex items-center justify-center p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -24,12 +35,13 @@ function VideoModal({ videoId, title, onClose }: { videoId: string; title: strin
       >
         {/* Close button */}
         <motion.button
+          aria-label="Close video"
           className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-colors duration-300"
           onClick={onClose}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
         >
-          <X className="w-5 h-5" />
+          <X className="w-5 h-5" aria-hidden="true" />
         </motion.button>
 
         {/* YouTube embed */}
@@ -274,6 +286,17 @@ export function PortfolioSection() {
   const sectionRef = useRef(null);
   const scrollRef = useRef(null);
   const [selectedVideo, setSelectedVideo] = useState<{ videoId: string; title: string } | null>(null);
+
+  const bgParticles = useMemo(() =>
+    [...Array(30)].map((_, i) => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      width: `${Math.random() * 100 + 50}px`,
+      height: `${Math.random() * 100 + 50}px`,
+      colorIndex: i % 3,
+      duration: 6 + Math.random() * 4,
+      delay: Math.random() * 3,
+    })), []);
   
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -305,18 +328,18 @@ export function PortfolioSection() {
     >
       {/* Background elements */}
       <div className="absolute inset-0">
-        {[...Array(30)].map((_, i) => (
+        {bgParticles.map((p, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full opacity-10"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              width: `${Math.random() * 100 + 50}px`,
-              height: `${Math.random() * 100 + 50}px`,
-              background: i % 3 === 0 ? 
+              left: p.left,
+              top: p.top,
+              width: p.width,
+              height: p.height,
+              background: p.colorIndex === 0 ? 
                 "radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)" :
-                i % 3 === 1 ?
+                p.colorIndex === 1 ?
                 "radial-gradient(circle, rgba(192,192,192,0.1) 0%, transparent 70%)" :
                 "radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%)",
             }}
@@ -325,9 +348,9 @@ export function PortfolioSection() {
               opacity: [0.1, 0.3, 0.1],
             }}
             transition={{
-              duration: 6 + Math.random() * 4,
+              duration: p.duration,
               repeat: Infinity,
-              delay: Math.random() * 3,
+              delay: p.delay,
               ease: "easeInOut",
             }}
           />

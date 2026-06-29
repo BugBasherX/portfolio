@@ -1,13 +1,24 @@
 "use client";
 
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "motion/react";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { Sparkles, Zap, Diamond } from "lucide-react";
 
 export function CreativeShowcase() {
   const sectionRef = useRef(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+
+  const particles = useMemo(() =>
+    [...Array(80)].map((_, i) => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      width: `${Math.random() * 6 + 2}px`,
+      height: `${Math.random() * 6 + 2}px`,
+      colorIndex: i % 4,
+      duration: 5 + Math.random() * 5,
+      delay: Math.random() * 5,
+    })), []);
   
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -52,20 +63,20 @@ export function CreativeShowcase() {
     >
       {/* Advanced particle system */}
       <div className="absolute inset-0">
-        {[...Array(80)].map((_, i) => (
+        {particles.map((p, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              width: `${Math.random() * 6 + 2}px`,
-              height: `${Math.random() * 6 + 2}px`,
-              background: i % 4 === 0 ? 
+              left: p.left,
+              top: p.top,
+              width: p.width,
+              height: p.height,
+              background: p.colorIndex === 0 ? 
                 "linear-gradient(45deg, #ffffff, #e5e4e2)" :
-                i % 4 === 1 ?
+                p.colorIndex === 1 ?
                 "linear-gradient(45deg, #ffd700, #ffed4e)" :
-                i % 4 === 2 ?
+                p.colorIndex === 2 ?
                 "linear-gradient(45deg, #c0c0c0, #a8a8a8)" :
                 "linear-gradient(45deg, #ffffff, #ffd700)",
             }}
@@ -76,9 +87,9 @@ export function CreativeShowcase() {
               rotate: [0, 180, 360],
             }}
             transition={{
-              duration: 5 + Math.random() * 5,
+              duration: p.duration,
               repeat: Infinity,
-              delay: Math.random() * 5,
+              delay: p.delay,
               ease: "easeOut",
             }}
           />
@@ -113,7 +124,7 @@ export function CreativeShowcase() {
           <div className="w-40 h-1 bg-gradient-to-r from-transparent via-[#ffd700] to-transparent mx-auto mb-8" />
           
           <p className="text-2xl text-white/70 max-w-4xl mx-auto leading-relaxed">
-            Experience the <span className="text-[#ffd700]">intersection of art and technology</span> through our 
+            Experience the <span className="text-[#ffd700]">intersection of art and technology</span> through my 
             <span className="text-white"> interactive installations</span>
           </p>
         </motion.div>
@@ -395,6 +406,8 @@ export function CreativeShowcase() {
                 boxShadow: "0 0 60px rgba(255, 255, 255, 0.3)"
               }}
               whileTap={{ scale: 0.95 }}
+              aria-label="View my work"
+              onClick={() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' })}
             >
               <span className="relative z-10 flex items-center space-x-4">
                 <Sparkles className="w-6 h-6" />
@@ -417,8 +430,10 @@ export function CreativeShowcase() {
                 boxShadow: "0 0 30px rgba(255, 215, 0, 0.3)"
               }}
               whileTap={{ scale: 0.95 }}
+              aria-label="Contact me"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              <Zap className="w-6 h-6" />
+              <Zap className="w-6 h-6" aria-hidden="true" />
             </motion.button>
           </motion.div>
         </motion.div>

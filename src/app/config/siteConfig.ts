@@ -189,7 +189,7 @@ export const siteConfig = {
 
   // Copyright and Legal
   legal: {
-    copyrightYear: "2025",
+    copyrightYear: new Date().getFullYear().toString(),
     copyrightHolder: "Yubraj Kurmi",
     rightsText:
       "All rights reserved. Crafted with precision and passion.",

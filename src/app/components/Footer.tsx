@@ -1,11 +1,23 @@
 "use client";
 
 import { motion } from "motion/react";
+import { useMemo } from "react";
 import { Github, Twitter, Linkedin, Instagram, ArrowUp, Star, Diamond, Sparkles } from "lucide-react";
 import { siteConfig } from "../config/siteConfig";
 import logo from 'figma:asset/e9afabb7434f237f121fca51dffa09ee3fce323e.png';
 
 export function Footer() {
+  const particles = useMemo(() =>
+    [...Array(60)].map((_, i) => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      width: `${Math.random() * 3 + 1}px`,
+      height: `${Math.random() * 3 + 1}px`,
+      colorIndex: i % 4,
+      duration: 6 + Math.random() * 4,
+      delay: Math.random() * 5,
+    })), []);
+
   const socialLinks = [
     { icon: Github, href: siteConfig.social.github, label: "GitHub", color: "#ffffff" },
     { icon: Twitter, href: siteConfig.social.twitter, label: "Twitter", color: "#c0c0c0" },
@@ -21,20 +33,20 @@ export function Footer() {
     <footer className="relative py-24 px-6 bg-gradient-to-t from-[#000000] via-[#1a1a1a] to-[#000000] overflow-hidden">
       {/* Sophisticated background elements */}
       <div className="absolute inset-0">
-        {[...Array(60)].map((_, i) => (
+        {particles.map((p, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              width: `${Math.random() * 3 + 1}px`,
-              height: `${Math.random() * 3 + 1}px`,
-              background: i % 4 === 0 ? 
+              left: p.left,
+              top: p.top,
+              width: p.width,
+              height: p.height,
+              background: p.colorIndex === 0 ? 
                 "linear-gradient(45deg, #ffffff, #e5e4e2)" :
-                i % 4 === 1 ?
+                p.colorIndex === 1 ?
                 "linear-gradient(45deg, #ffd700, #ffed4e)" :
-                i % 4 === 2 ?
+                p.colorIndex === 2 ?
                 "linear-gradient(45deg, #c0c0c0, #a8a8a8)" :
                 "linear-gradient(45deg, #ffffff80, #ffd70080)",
             }}
@@ -44,9 +56,9 @@ export function Footer() {
               y: [0, -30, 0],
             }}
             transition={{
-              duration: 6 + Math.random() * 4,
+              duration: p.duration,
               repeat: Infinity,
-              delay: Math.random() * 5,
+              delay: p.delay,
               ease: "easeInOut",
             }}
           />
@@ -270,6 +282,7 @@ export function Footer() {
         {/* Enhanced back to top button */}
         <motion.button
           onClick={scrollToTop}
+          aria-label="Back to top"
           className="group absolute top-12 right-12 w-16 h-16 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center text-white hover:text-[#ffd700] transition-all duration-300 overflow-hidden"
           whileHover={{ 
             scale: 1.1,

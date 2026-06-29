@@ -2,7 +2,7 @@
 
 import { motion, useMotionValue, useTransform, useSpring } from "motion/react";
 import { ChevronDown, Sparkles, Zap } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { siteConfig } from "../config/siteConfig";
 import logo from 'figma:asset/e9afabb7434f237f121fca51dffa09ee3fce323e.png';
 
@@ -10,6 +10,17 @@ export function HeroSection() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const sectionRef = useRef<HTMLElement>(null);
+
+  const particles = useMemo(() =>
+    [...Array(100)].map((_, i) => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      width: `${Math.random() * 4 + 1}px`,
+      height: `${Math.random() * 4 + 1}px`,
+      colorType: i % 3,
+      duration: 3 + Math.random() * 4,
+      delay: Math.random() * 5,
+    })), []);
 
   const springConfig = { damping: 25, stiffness: 400 };
   const rotateX = useSpring(useTransform(mouseY, [-300, 300], [5, -5]), springConfig);
@@ -46,17 +57,17 @@ export function HeroSection() {
     >
       {/* Advanced particle system */}
       <div className="absolute inset-0">
-        {[...Array(100)].map((_, i) => (
+        {particles.map((p, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              width: `${Math.random() * 4 + 1}px`,
-              height: `${Math.random() * 4 + 1}px`,
-              background: i % 3 === 0 ? 'rgba(255, 255, 255, 0.6)' : 
-                         i % 3 === 1 ? 'rgba(192, 192, 192, 0.4)' : 
+              left: p.left,
+              top: p.top,
+              width: p.width,
+              height: p.height,
+              background: p.colorType === 0 ? 'rgba(255, 255, 255, 0.6)' : 
+                         p.colorType === 1 ? 'rgba(192, 192, 192, 0.4)' : 
                          'rgba(255, 215, 0, 0.3)',
             }}
             animate={{
@@ -65,9 +76,9 @@ export function HeroSection() {
               y: [0, -100, -200],
             }}
             transition={{
-              duration: 3 + Math.random() * 4,
+              duration: p.duration,
               repeat: Infinity,
-              delay: Math.random() * 5,
+              delay: p.delay,
               ease: "easeOut",
             }}
           />
