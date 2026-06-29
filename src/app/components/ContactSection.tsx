@@ -5,6 +5,23 @@ import { useState, useMemo } from "react";
 import { Send, Mail, Phone, MapPin, MessageSquare, User, AtSign } from "lucide-react";
 import { siteConfig } from "../config/siteConfig";
 
+type FieldErrors = { name?: string; email?: string; subject?: string; message?: string };
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validateFields(data: { name: string; email: string; subject: string; message: string }): FieldErrors {
+  const errors: FieldErrors = {};
+  if (!data.name.trim()) errors.name = "Name is required.";
+  else if (data.name.trim().length < 2) errors.name = "Name must be at least 2 characters.";
+  if (!data.email.trim()) errors.email = "Email is required.";
+  else if (!EMAIL_RE.test(data.email.trim())) errors.email = "Please enter a valid email address.";
+  if (!data.subject.trim()) errors.subject = "Subject is required.";
+  else if (data.subject.trim().length < 3) errors.subject = "Subject must be at least 3 characters.";
+  if (!data.message.trim()) errors.message = "Message is required.";
+  else if (data.message.trim().length < 20) errors.message = "Message must be at least 20 characters.";
+  return errors;
+}
+
 export function ContactSection() {
   const [formData, setFormData] = useState({
     name: "",
@@ -12,7 +29,9 @@ export function ContactSection() {
     subject: "",
     message: "",
   });
-
+  const [honeypot, setHoneypot] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -30,42 +49,74 @@ export function ContactSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Honeypot check — bots fill hidden fields, humans don't
+    if (honeypot) return;
+
+    // Full validation
+    const errors = validateFields(formData);
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
+      setTouched({ name: true, email: true, subject: true, message: true });
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus('idle');
-    
+    setFieldErrors({});
+
     try {
-      // TODO: Replace this with your actual form handling service
-      // Example with Formspree (uncomment and replace YOUR_FORM_ID):
-      /*
-      const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) throw new Error('Failed to send message');
-      */
-      
-      // Simulate API call for now
-      await new Promise(resolve => setTimeout(resolve, 2500));
-      
+      // ── Formspree integration ─────────────────────────────────────────────
+      // 1. Go to https://formspree.io → create a free form
+      // 2. Replace YOUR_FORM_ID below with your actual form ID (e.g. "xpwzgkqb")
+      // 3. Delete the simulation block below
+      // ─────────────────────────────────────────────────────────────────────
+      const FORMSPREE_ID = "";   // ← paste your ID here
+
+      if (FORMSPREE_ID) {
+        const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({
+            name: formData.name.trim(),
+            email: formData.email.trim(),
+            subject: formData.subject.trim(),
+            message: formData.message.trim(),
+          }),
+        });
+        const json = await response.json();
+        if (!response.ok) throw new Error(json?.error ?? "Submission failed");
+      } else {
+        // Simulation — remove once FORMSPREE_ID is set
+        await new Promise(resolve => setTimeout(resolve, 1800));
+      }
+
       setFormData({ name: "", email: "", subject: "", message: "" });
+      setTouched({});
       setSubmitStatus('success');
-      setTimeout(() => setSubmitStatus('idle'), 6000);
-      
-    } catch (error) {
-      console.error('Error sending message:', error);
+      setTimeout(() => setSubmitStatus('idle'), 7000);
+
+    } catch {
       setSubmitStatus('error');
-      setTimeout(() => setSubmitStatus('idle'), 6000);
+      setTimeout(() => setSubmitStatus('idle'), 7000);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+    const next = { ...formData, [name]: value };
+    setFormData(next);
+    if (touched[name]) {
+      setFieldErrors(prev => ({ ...prev, [name]: validateFields(next)[name as keyof FieldErrors] }));
+    }
+  };
+
+  const handleBlur = (name: string) => {
+    setFocusedField(null);
+    setTouched(prev => ({ ...prev, [name]: true }));
+    setFieldErrors(prev => ({ ...prev, [name]: validateFields(formData)[name as keyof FieldErrors] }));
   };
 
   const contactInfo = [
@@ -169,126 +220,136 @@ export function ContactSection() {
             className="relative"
           >
             <form onSubmit={handleSubmit} className="space-y-8" noValidate>
+              {/* Honeypot — hidden from humans, bots will fill it */}
+              <div aria-hidden="true" style={{ position: 'absolute', left: '-9999px', width: '1px', height: '1px', overflow: 'hidden' }}>
+                <label htmlFor="contact-website">Website</label>
+                <input
+                  id="contact-website"
+                  type="text"
+                  name="website"
+                  value={honeypot}
+                  onChange={e => setHoneypot(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
+
               {/* Name and Email Row */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <motion.div
-                  className="relative group"
-                  whileFocus={{ scale: 1.02 }}
-                >
-                  <label htmlFor="contact-name" className="sr-only">Your Name</label>
-                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10">
-                    <User className="w-5 h-5 text-white/40 group-focus-within:text-white transition-colors duration-300" aria-hidden="true" />
-                  </div>
-                  <input
-                    id="contact-name"
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    onFocus={() => setFocusedField('name')}
-                    onBlur={() => setFocusedField(null)}
-                    placeholder="Your Name"
-                    required
-                    autoComplete="name"
-                    className="w-full pl-14 pr-6 py-6 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-xl border border-white/10 rounded-2xl text-white placeholder-white/40 focus:border-white/30 focus:outline-none focus:glow-white transition-all duration-300"
-                  />
-                  {focusedField === 'name' && (
-                    <motion.div
-                      className="absolute inset-0 rounded-2xl border border-white/30 pointer-events-none"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
+                <div className="space-y-1">
+                  <motion.div className="relative group" whileFocus={{ scale: 1.02 }}>
+                    <label htmlFor="contact-name" className="sr-only">Your Name</label>
+                    <div className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10">
+                      <User className="w-5 h-5 text-white/40 group-focus-within:text-white transition-colors duration-300" aria-hidden="true" />
+                    </div>
+                    <input
+                      id="contact-name"
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      onFocus={() => setFocusedField('name')}
+                      onBlur={() => handleBlur('name')}
+                      placeholder="Your Name"
+                      required
+                      autoComplete="name"
+                      aria-invalid={touched.name && !!fieldErrors.name}
+                      aria-describedby={fieldErrors.name ? "err-name" : undefined}
+                      className={`w-full pl-14 pr-6 py-6 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-xl border rounded-2xl text-white placeholder-white/40 focus:outline-none transition-all duration-300 ${touched.name && fieldErrors.name ? 'border-red-500/60' : 'border-white/10 focus:border-white/30'}`}
                     />
+                    {focusedField === 'name' && !fieldErrors.name && (
+                      <motion.div className="absolute inset-0 rounded-2xl border border-white/30 pointer-events-none" initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
+                    )}
+                  </motion.div>
+                  {touched.name && fieldErrors.name && (
+                    <p id="err-name" role="alert" className="text-red-400 text-xs pl-2">{fieldErrors.name}</p>
                   )}
-                </motion.div>
+                </div>
 
-                <motion.div
-                  className="relative group"
-                  whileFocus={{ scale: 1.02 }}
-                >
-                  <label htmlFor="contact-email" className="sr-only">Your Email</label>
-                  <div className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10">
-                    <AtSign className="w-5 h-5 text-white/40 group-focus-within:text-white transition-colors duration-300" aria-hidden="true" />
-                  </div>
-                  <input
-                    id="contact-email"
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    onFocus={() => setFocusedField('email')}
-                    onBlur={() => setFocusedField(null)}
-                    placeholder="Your Email"
-                    required
-                    autoComplete="email"
-                    className="w-full pl-14 pr-6 py-6 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-xl border border-white/10 rounded-2xl text-white placeholder-white/40 focus:border-white/30 focus:outline-none focus:glow-white transition-all duration-300"
-                  />
-                  {focusedField === 'email' && (
-                    <motion.div
-                      className="absolute inset-0 rounded-2xl border border-white/30 pointer-events-none"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
+                <div className="space-y-1">
+                  <motion.div className="relative group" whileFocus={{ scale: 1.02 }}>
+                    <label htmlFor="contact-email" className="sr-only">Your Email</label>
+                    <div className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10">
+                      <AtSign className="w-5 h-5 text-white/40 group-focus-within:text-white transition-colors duration-300" aria-hidden="true" />
+                    </div>
+                    <input
+                      id="contact-email"
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      onFocus={() => setFocusedField('email')}
+                      onBlur={() => handleBlur('email')}
+                      placeholder="Your Email"
+                      required
+                      autoComplete="email"
+                      aria-invalid={touched.email && !!fieldErrors.email}
+                      aria-describedby={fieldErrors.email ? "err-email" : undefined}
+                      className={`w-full pl-14 pr-6 py-6 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-xl border rounded-2xl text-white placeholder-white/40 focus:outline-none transition-all duration-300 ${touched.email && fieldErrors.email ? 'border-red-500/60' : 'border-white/10 focus:border-white/30'}`}
                     />
+                    {focusedField === 'email' && !fieldErrors.email && (
+                      <motion.div className="absolute inset-0 rounded-2xl border border-white/30 pointer-events-none" initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
+                    )}
+                  </motion.div>
+                  {touched.email && fieldErrors.email && (
+                    <p id="err-email" role="alert" className="text-red-400 text-xs pl-2">{fieldErrors.email}</p>
                   )}
-                </motion.div>
+                </div>
               </div>
 
               {/* Subject */}
-              <motion.div
-                className="relative group"
-                whileFocus={{ scale: 1.02 }}
-              >
-                <label htmlFor="contact-subject" className="sr-only">Subject</label>
-                <input
-                  id="contact-subject"
-                  type="text"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  onFocus={() => setFocusedField('subject')}
-                  onBlur={() => setFocusedField(null)}
-                  placeholder="Subject"
-                  required
-                  className="w-full px-6 py-6 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-xl border border-white/10 rounded-2xl text-white placeholder-white/40 focus:border-white/30 focus:outline-none focus:glow-white transition-all duration-300"
-                />
-                {focusedField === 'subject' && (
-                  <motion.div
-                    className="absolute inset-0 rounded-2xl border border-white/30 pointer-events-none"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+              <div className="space-y-1">
+                <motion.div className="relative group" whileFocus={{ scale: 1.02 }}>
+                  <label htmlFor="contact-subject" className="sr-only">Subject</label>
+                  <input
+                    id="contact-subject"
+                    type="text"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    onFocus={() => setFocusedField('subject')}
+                    onBlur={() => handleBlur('subject')}
+                    placeholder="Subject"
+                    required
+                    aria-invalid={touched.subject && !!fieldErrors.subject}
+                    aria-describedby={fieldErrors.subject ? "err-subject" : undefined}
+                    className={`w-full px-6 py-6 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-xl border rounded-2xl text-white placeholder-white/40 focus:outline-none transition-all duration-300 ${touched.subject && fieldErrors.subject ? 'border-red-500/60' : 'border-white/10 focus:border-white/30'}`}
                   />
+                  {focusedField === 'subject' && !fieldErrors.subject && (
+                    <motion.div className="absolute inset-0 rounded-2xl border border-white/30 pointer-events-none" initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
+                  )}
+                </motion.div>
+                {touched.subject && fieldErrors.subject && (
+                  <p id="err-subject" role="alert" className="text-red-400 text-xs pl-2">{fieldErrors.subject}</p>
                 )}
-              </motion.div>
+              </div>
 
               {/* Message */}
-              <motion.div
-                className="relative group"
-                whileFocus={{ scale: 1.02 }}
-              >
-                <label htmlFor="contact-message" className="sr-only">Message</label>
-                <textarea
-                  id="contact-message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  onFocus={() => setFocusedField('message')}
-                  onBlur={() => setFocusedField(null)}
-                  placeholder="Tell me about your project..."
-                  required
-                  rows={6}
-                  className="w-full px-6 py-6 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-xl border border-white/10 rounded-2xl text-white placeholder-white/40 focus:border-white/30 focus:outline-none focus:glow-white transition-all duration-300 resize-none"
-                />
-                {focusedField === 'message' && (
-                  <motion.div
-                    className="absolute inset-0 rounded-2xl border border-white/30 pointer-events-none"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+              <div className="space-y-1">
+                <motion.div className="relative group" whileFocus={{ scale: 1.02 }}>
+                  <label htmlFor="contact-message" className="sr-only">Message</label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    onFocus={() => setFocusedField('message')}
+                    onBlur={() => handleBlur('message')}
+                    placeholder="Tell me about your project... (min. 20 characters)"
+                    required
+                    rows={6}
+                    aria-invalid={touched.message && !!fieldErrors.message}
+                    aria-describedby={fieldErrors.message ? "err-message" : undefined}
+                    className={`w-full px-6 py-6 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-xl border rounded-2xl text-white placeholder-white/40 focus:outline-none transition-all duration-300 resize-none ${touched.message && fieldErrors.message ? 'border-red-500/60' : 'border-white/10 focus:border-white/30'}`}
                   />
+                  {focusedField === 'message' && !fieldErrors.message && (
+                    <motion.div className="absolute inset-0 rounded-2xl border border-white/30 pointer-events-none" initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
+                  )}
+                </motion.div>
+                {touched.message && fieldErrors.message && (
+                  <p id="err-message" role="alert" className="text-red-400 text-xs pl-2">{fieldErrors.message}</p>
                 )}
-              </motion.div>
+              </div>
 
               {/* Inline status messages */}
               {submitStatus === 'success' && (

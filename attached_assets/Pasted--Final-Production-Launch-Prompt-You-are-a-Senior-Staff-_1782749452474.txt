@@ -1,0 +1,226 @@
+# Final Production Launch Prompt
+
+You are a Senior Staff Software Engineer, Senior QA Engineer, Senior UI/UX Designer, SEO Specialist, Accessibility Expert, Performance Engineer, DevOps Engineer, and Technical Recruiter.
+
+Your mission is to prepare this portfolio for a **real production launch**. Treat this as the final release candidate (v1.0.0). Do not redesign the website or introduce unnecessary features. Focus on completing, validating, and polishing the existing implementation.
+
+Your objectives are:
+
+## Phase 1 — Complete Remaining Tasks
+
+### 1. Open Graph Image
+
+Create a professional social sharing image.
+
+Requirements:
+
+* Resolution: **1200 × 630 px**
+* Matches the website's premium dark aesthetic
+* Includes:
+
+  * Personal logo
+  * Name: **Yubraj Kurmi**
+  * Title: **Full-Stack Developer & Graphic Designer**
+  * Subtle premium background
+  * Website URL
+* Export as optimized PNG
+* Update all Open Graph and Twitter image references
+
+---
+
+### 2. Contact Form
+
+Replace the mock implementation with a production-ready solution.
+
+Requirements:
+
+* Connect Formspree (or another production-ready service)
+* Validate all fields
+* Prevent spam (honeypot or CAPTCHA if appropriate)
+* Display inline loading state
+* Display inline success message
+* Display inline error message
+* Handle network failures gracefully
+* Never use browser alerts
+* Disable submit button while sending
+* Preserve accessibility
+
+Test:
+
+* Successful submission
+* Empty fields
+* Invalid email
+* Network failure
+* Mobile
+* Desktop
+
+---
+
+### 3. Custom Domain
+
+Verify deployment configuration.
+
+Ensure:
+
+* HTTPS works correctly
+* Canonical domain is configured
+* Domain redirects correctly
+* robots.txt is accessible
+* sitemap.xml is accessible
+* All pages return HTTP 200
+* No redirect loops
+
+---
+
+## Phase 2 — Production Verification
+
+Run a complete audit.
+
+Verify:
+
+* No console errors
+* No console warnings
+* No build warnings
+* No build errors
+* No broken images
+* No broken links
+* No missing assets
+* No layout shifts
+* No hydration issues (if applicable)
+* No accessibility regressions
+* No SEO regressions
+
+---
+
+## Phase 3 — Performance Audit
+
+Optimize only if improvements do not change the design.
+
+Verify:
+
+* Lighthouse Performance ≥95
+* Accessibility ≥95
+* Best Practices ≥95
+* SEO =100
+
+Core Web Vitals:
+
+* LCP <2.5s
+* CLS <0.1
+* INP <200ms
+
+---
+
+## Phase 4 — Recruiter Experience Review
+
+Now switch perspectives.
+
+Imagine you are a senior recruiter reviewing this portfolio.
+
+You have exactly **30 seconds**.
+
+Evaluate:
+
+* First impression
+* Professionalism
+* Visual hierarchy
+* Readability
+* Personal branding
+* Project presentation
+* Navigation clarity
+* Contact visibility
+* Resume accessibility
+* Overall confidence
+
+Identify anything that would reduce the likelihood of contacting or hiring the candidate.
+
+Recommend improvements that increase credibility without redesigning the site.
+
+---
+
+## Phase 5 — Google Launch Readiness
+
+Verify:
+
+* robots.txt
+* sitemap.xml
+* Canonical URLs
+* Open Graph metadata
+* Twitter Cards
+* Structured data
+* Proper indexing directives
+* Crawlability
+* Mobile friendliness
+* HTTPS
+* Internal linking
+
+Ensure the website is fully prepared for submission to Google Search Console.
+
+---
+
+## Phase 6 — Final Production Report
+
+Generate a report containing:
+
+### Overall Launch Score
+
+Score the website from **0–100**.
+
+### Launch Decision
+
+Choose one:
+
+* ✅ Ready for Production
+* ⚠️ Ready with Minor Recommendations
+* ❌ Not Ready
+
+### Remaining Issues
+
+Classify every issue as:
+
+* Critical
+* High
+* Medium
+* Low
+
+For each issue provide:
+
+* Description
+* Location
+* Impact
+* Recommended fix
+
+### Recruiter Review
+
+Provide scores (1–10) for:
+
+* Visual Design
+* UX
+* Accessibility
+* Performance
+* SEO
+* Branding
+* Project Showcase
+* Professionalism
+* Hireability
+* Overall Impression
+
+### Final Checklist
+
+Confirm:
+
+* Production build passes
+* Deployment configuration is correct
+* Contact form works
+* Domain works
+* HTTPS works
+* Social preview works
+* Analytics ready
+* Search Console ready
+* No critical issues remain
+
+---
+
+### Final Instruction
+
+Do not stop after identifying issues. Where safe and possible, automatically implement fixes. Continue validating until no critical issues remain. If everything meets production standards, explicitly state that the portfolio is ready for public launch and Google indexing.
