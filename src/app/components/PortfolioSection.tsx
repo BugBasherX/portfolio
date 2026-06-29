@@ -61,6 +61,7 @@ function VideoModal({ videoId, title, onClose }: { videoId: string; title: strin
 function ProjectCard({ project, index, onVideoClick }: { project: any, index: number, onVideoClick?: (videoId: string, title: string) => void }) {
   const [isHovered, setIsHovered] = useState(false);
   const isVideo = project.type === 'video';
+  const isImage = project.type === 'image';
 
   const handleClick = () => {
     if (isVideo && onVideoClick && project.videoId) {
@@ -70,10 +71,9 @@ function ProjectCard({ project, index, onVideoClick }: { project: any, index: nu
     }
   };
 
-  const gradient = isVideo ? 
-    project.accent === "#ffffff" ? "from-white/20 to-white/5" :
+  const gradient =
     project.accent === "#c0c0c0" ? "from-[#c0c0c0]/20 to-[#c0c0c0]/5" :
-    "from-[#ffd700]/20 to-[#ffd700]/5" :
+    project.accent === "#ffd700" ? "from-[#ffd700]/20 to-[#ffd700]/5" :
     "from-white/20 to-white/5";
 
   return (
@@ -101,18 +101,18 @@ function ProjectCard({ project, index, onVideoClick }: { project: any, index: nu
           
           {/* Project preview area */}
           <div className="relative h-64 bg-black/30 overflow-hidden">
-            {isVideo && project.thumbnailUrl ? (
-              // Video thumbnail
+            {(isVideo || isImage) && project.thumbnailUrl ? (
+              // Static demo screenshot
               <div className="absolute inset-0">
                 <img 
                   src={project.thumbnailUrl}
-                  alt={project.title}
-                  className="w-full h-full object-cover"
+                  alt={`${project.title} demo screenshot`}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-black/40" />
+                <div className={`absolute inset-0 ${isImage ? 'bg-black/20 group-hover:bg-black/10' : 'bg-black/40'} transition-colors duration-300`} />
               </div>
             ) : (
-              // Animated preview background for non-video projects
+              // Animated preview background for projects without an image
               <motion.div
                 className="absolute inset-0"
                 style={{
@@ -122,65 +122,46 @@ function ProjectCard({ project, index, onVideoClick }: { project: any, index: nu
                     linear-gradient(45deg, transparent 40%, ${project.accent}05 50%, transparent 60%)
                   `
                 }}
-                animate={{
-                  backgroundPosition: isHovered ? ["0% 0%", "100% 100%"] : ["0% 0%", "0% 0%"],
-                }}
-                transition={{ duration: 2, ease: "easeInOut" }}
               />
             )}
 
-            {/* Floating geometric shapes for non-video projects */}
-            {!isVideo && [...Array(8)].map((_, i) => (
+            {/* Floating dots — only for projects without an image */}
+            {!isVideo && !isImage && [...Array(8)].map((_, i) => (
               <motion.div
                 key={i}
                 className="absolute rounded-full opacity-20"
                 style={{
                   left: `${20 + i * 10}%`,
                   top: `${30 + Math.sin(i) * 20}%`,
-                  width: `${10 + Math.random() * 20}px`,
-                  height: `${10 + Math.random() * 20}px`,
+                  width: `${10 + (i % 3) * 8}px`,
+                  height: `${10 + (i % 3) * 8}px`,
                   backgroundColor: project.accent,
                 }}
                 animate={{
                   y: isHovered ? [0, -20, 0] : [0, 0, 0],
                   opacity: isHovered ? [0.2, 0.6, 0.2] : [0.2, 0.2, 0.2],
-                  scale: isHovered ? [1, 1.2, 1] : [1, 1, 1],
                 }}
-                transition={{
-                  duration: 2 + Math.random() * 2,
-                  repeat: Infinity,
-                  delay: i * 0.2,
-                }}
+                transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
               />
             ))}
 
-            {/* Play button overlay */}
-            <motion.div
-              className="absolute inset-0 flex items-center justify-center"
-              animate={{
-                opacity: isHovered ? 1 : 0.8,
-                scale: isHovered ? 1.1 : 1,
-              }}
-              transition={{ duration: 0.3 }}
-            >
+            {/* Play overlay — only for actual video type */}
+            {isVideo && (
               <motion.div
-                className={`w-20 h-20 rounded-full backdrop-blur-sm border border-white/20 flex items-center justify-center ${
-                  isVideo ? 'bg-red-600/80 hover:bg-red-600' : 'bg-white/10'
-                }`}
-                whileHover={{ 
-                  scale: 1.1,
-                  backgroundColor: isVideo ? '#dc2626' : `${project.accent}20`
-                }}
+                className="absolute inset-0 flex items-center justify-center"
+                animate={{ opacity: isHovered ? 1 : 0.8, scale: isHovered ? 1.1 : 1 }}
+                transition={{ duration: 0.3 }}
               >
-                {isVideo ? (
+                <motion.div
+                  className="w-20 h-20 rounded-full backdrop-blur-sm border border-white/20 flex items-center justify-center bg-red-600/80"
+                  whileHover={{ scale: 1.1, backgroundColor: '#dc2626' }}
+                >
                   <Youtube className="w-10 h-10 text-white" />
-                ) : (
-                  <Play className="w-8 h-8 text-white ml-1" />
-                )}
+                </motion.div>
               </motion.div>
-            </motion.div>
+            )}
 
-            {/* Video indicator */}
+            {/* VIDEO badge — only for video type */}
             {isVideo && (
               <div className="absolute top-6 left-6 px-3 py-1 bg-red-600 rounded-full text-white text-xs font-semibold flex items-center space-x-1">
                 <Youtube className="w-3 h-3" />
@@ -188,7 +169,7 @@ function ProjectCard({ project, index, onVideoClick }: { project: any, index: nu
               </div>
             )}
 
-            {/* Corner accent */}
+            {/* Corner accent dot */}
             <div 
               className="absolute top-6 right-6 w-3 h-3 rounded-full opacity-60"
               style={{ backgroundColor: project.accent }}
@@ -225,7 +206,7 @@ function ProjectCard({ project, index, onVideoClick }: { project: any, index: nu
                 {isVideo ? (
                   <Youtube className="w-6 h-6 text-white/40 group-hover:text-red-500 transition-colors duration-300" />
                 ) : (
-                  <ExternalLink className="w-6 h-6 text-white/40 group-hover:text-white transition-colors duration-300" />
+                  <ExternalLink className="w-6 h-6 text-white/40 group-hover:text-white transition-colors duration-300" aria-hidden="true" />
                 )}
               </motion.div>
             </div>
@@ -255,7 +236,7 @@ function ProjectCard({ project, index, onVideoClick }: { project: any, index: nu
                   borderColor: `${project.accent}50`,
                 }}
               >
-                {isVideo ? 'Watch Video' : 'View Details'}
+                {isVideo ? 'Watch Video' : 'View Project'}
               </motion.div>
             </div>
           </div>
