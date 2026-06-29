@@ -5,7 +5,7 @@ import { useRef, useEffect, useMemo } from "react";
 import { Sparkles, Zap, Diamond } from "lucide-react";
 
 export function CreativeShowcase() {
-  const sectionRef = useRef(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
