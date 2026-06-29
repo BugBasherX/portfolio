@@ -1,6 +1,11 @@
 // KONCEPT Website Configuration
 // Update this file with your personal/business details
 
+import ecommerceImg from '../../assets/portfolio-ecommerce.webp';
+import portfolioImg from '../../assets/portfolio-portfolio.webp';
+import ngoImg from '../../assets/portfolio-ngo.webp';
+import uilib from '../../assets/portfolio-uilib.webp';
+
 export const siteConfig = {
   // Company/Personal Information
   company: {
@@ -115,7 +120,7 @@ export const siteConfig = {
       year: "2024",
       accent: "#ffffff",
       type: "image",
-      thumbnailUrl: `https://img.youtube.com/vi/KjNIauKFzYQ/maxresdefault.jpg`,
+      thumbnailUrl: ecommerceImg,
       technologies: ["React.js", "Node.js", "MongoDB", "Payment Integration"],
     },
     {
@@ -127,7 +132,7 @@ export const siteConfig = {
       year: "2024",
       accent: "#c0c0c0",
       type: "image",
-      thumbnailUrl: `https://img.youtube.com/vi/zAWkv6CwKxI/maxresdefault.jpg`,
+      thumbnailUrl: portfolioImg,
       technologies: ["React.js", "SEO", "UI/UX", "Responsive Design"],
     },
     {
@@ -139,7 +144,7 @@ export const siteConfig = {
       year: "2024",
       accent: "#ffd700",
       type: "image",
-      thumbnailUrl: `https://img.youtube.com/vi/3gzyhjUvyqQ/maxresdefault.jpg`,
+      thumbnailUrl: ngoImg,
       technologies: ["React.js", "Node.js", "Express.js", "MySQL"],
     },
     {
@@ -151,7 +156,7 @@ export const siteConfig = {
       year: "2024",
       accent: "#ffd700",
       type: "image",
-      thumbnailUrl: `https://img.youtube.com/vi/9RnHyNhlZ5g/maxresdefault.jpg`,
+      thumbnailUrl: uilib,
       technologies: ["Figma", "HTML/CSS", "JavaScript", "Component Design"],
     },
   ],
