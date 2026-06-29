@@ -30,7 +30,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative py-24 px-6 bg-gradient-to-t from-[#000000] via-[#1a1a1a] to-[#000000] overflow-hidden">
+    <footer className="relative py-16 sm:py-24 px-4 sm:px-6 bg-gradient-to-t from-[#000000] via-[#1a1a1a] to-[#000000] overflow-hidden">
       {/* Sophisticated background elements */}
       <div className="absolute inset-0">
         {particles.map((p, i) => (
@@ -68,7 +68,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Main footer content */}
         <motion.div
-          className="text-center space-y-12"
+          className="text-center space-y-10 sm:space-y-12"
           initial={{ opacity: 0, y: 100 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
@@ -76,7 +76,7 @@ export function Footer() {
         >
           {/* Decorative header */}
           <motion.div
-            className="flex items-center justify-center space-x-4 mb-8"
+            className="flex items-center justify-center space-x-3 sm:space-x-4 mb-6 sm:mb-8"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -86,25 +86,25 @@ export function Footer() {
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
             >
-              <Diamond className="w-8 h-8 text-[#ffd700]" />
+              <Diamond className="w-6 h-6 sm:w-8 sm:h-8 text-[#ffd700]" />
             </motion.div>
             
-            <div className="w-24 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+            <div className="w-12 sm:w-24 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
             
             <motion.div
               animate={{ rotate: -360 }}
               transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
             >
-              <Star className="w-6 h-6 text-white/60" />
+              <Star className="w-5 h-5 sm:w-6 sm:h-6 text-white/60" />
             </motion.div>
             
-            <div className="w-24 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+            <div className="w-12 sm:w-24 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
             
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
             >
-              <Sparkles className="w-8 h-8 text-[#c0c0c0]" />
+              <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-[#c0c0c0]" />
             </motion.div>
           </motion.div>
 
@@ -128,7 +128,7 @@ export function Footer() {
               <motion.img
                 src={logo}
                 alt={`${siteConfig.company.name} Logo`}
-                className="h-20 w-auto"
+                className="h-14 sm:h-20 w-auto"
                 animate={{
                   filter: [
                     "drop-shadow(0 0 20px rgba(255, 255, 255, 0.2))",
@@ -141,7 +141,7 @@ export function Footer() {
             </motion.div>
 
             <motion.h3
-              className="text-5xl md:text-6xl lg:text-7xl font-black leading-none mb-6"
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-none mb-6"
               whileHover={{ 
                 scale: 1.05,
                 transition: { duration: 0.3 }
@@ -157,26 +157,26 @@ export function Footer() {
 
           {/* Enhanced tagline */}
           <motion.div
-            className="space-y-6"
+            className="space-y-4 sm:space-y-6"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
             viewport={{ once: true }}
           >
-            <p className="text-xl md:text-2xl text-white/70 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-base sm:text-xl md:text-2xl text-white/70 max-w-4xl mx-auto leading-relaxed px-2">
               <span className="text-[#ffd700]">{siteConfig.footerTagline.phrase1}</span>{" "}
               <span className="text-white">{siteConfig.footerTagline.phrase2}</span>{" "}
               <span className="text-[#c0c0c0]">{siteConfig.footerTagline.phrase3}</span>
             </p>
             
-            <p className="text-white/50 max-w-3xl mx-auto">
+            <p className="text-white/50 max-w-3xl mx-auto text-sm sm:text-base px-4">
               {siteConfig.company.description}
             </p>
           </motion.div>
 
           {/* Enhanced social icons */}
           <motion.div
-            className="flex items-center justify-center space-x-8"
+            className="flex items-center justify-center space-x-4 sm:space-x-8"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
@@ -195,7 +195,8 @@ export function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="relative block w-16 h-16 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center text-white/60 hover:text-white transition-all duration-300 group overflow-hidden"
+                  aria-label={social.label}
+                  className="relative flex w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl items-center justify-center text-white/60 hover:text-white transition-all duration-300 group overflow-hidden"
                   whileHover={{ 
                     scale: 1.1,
                     y: -8,
@@ -204,9 +205,8 @@ export function Footer() {
                   }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <social.icon className="w-7 h-7 relative z-10 transition-all duration-300" />
+                  <social.icon className="w-5 h-5 sm:w-7 sm:h-7 relative z-10 transition-all duration-300" />
                   
-                  {/* Hover background effect */}
                   <motion.div
                     className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     style={{
@@ -214,7 +214,6 @@ export function Footer() {
                     }}
                   />
                   
-                  {/* Animated border on hover */}
                   <motion.div
                     className="absolute inset-0 rounded-2xl border opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                     style={{ borderColor: `${social.color}40` }}
@@ -229,7 +228,6 @@ export function Footer() {
                   />
                 </motion.a>
 
-                {/* Glow effect on hover */}
                 <div 
                   className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-60 transition-opacity duration-300 blur-xl -z-10"
                   style={{ backgroundColor: `${social.color}20` }}
@@ -240,7 +238,7 @@ export function Footer() {
 
           {/* Enhanced divider with animation */}
           <motion.div
-            className="relative py-8"
+            className="relative py-6 sm:py-8"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 1, delay: 1.2 }}
@@ -255,21 +253,15 @@ export function Footer() {
             >
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-transparent via-[#ffd700] to-transparent"
-                animate={{
-                  x: ["-100%", "100%"],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+                animate={{ x: ["-100%", "100%"] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               />
             </motion.div>
           </motion.div>
 
           {/* Enhanced copyright */}
           <motion.p
-            className="text-white/40 text-sm leading-relaxed"
+            className="text-white/40 text-xs sm:text-sm leading-relaxed"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1.4 }}
@@ -279,11 +271,11 @@ export function Footer() {
           </motion.p>
         </motion.div>
 
-        {/* Enhanced back to top button */}
+        {/* Back to top button — responsive position */}
         <motion.button
           onClick={scrollToTop}
           aria-label="Back to top"
-          className="group absolute top-12 right-12 w-16 h-16 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center text-white hover:text-[#ffd700] transition-all duration-300 overflow-hidden"
+          className="group absolute top-4 right-4 sm:top-12 sm:right-12 w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl flex items-center justify-center text-white hover:text-[#ffd700] transition-all duration-300 overflow-hidden"
           whileHover={{ 
             scale: 1.1,
             y: -5,
@@ -296,31 +288,23 @@ export function Footer() {
           transition={{ duration: 0.8, delay: 0.5 }}
           viewport={{ once: true }}
         >
-          <ArrowUp className="w-6 h-6 group-hover:animate-bounce relative z-10" />
+          <ArrowUp className="w-5 h-5 sm:w-6 sm:h-6 group-hover:animate-bounce relative z-10" />
           
-          {/* Hover background effect */}
           <motion.div
             className="absolute inset-0 bg-gradient-to-r from-[#ffd700]/20 to-white/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            animate={{
-              rotate: [0, 360],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "linear",
-            }}
+            animate={{ rotate: [0, 360] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
           />
 
-          {/* Glow effect */}
           <div className="absolute inset-0 bg-white/10 rounded-2xl opacity-0 group-hover:opacity-60 transition-opacity duration-300 blur-xl -z-10" />
         </motion.button>
       </div>
 
       {/* Ambient footer lighting */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-radial from-white/5 to-transparent blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-radial from-[#ffd700]/5 to-transparent blur-3xl" />
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[600px] h-48 bg-gradient-radial from-white/3 to-transparent blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-radial from-white/5 to-transparent blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-64 sm:w-96 h-64 sm:h-96 bg-gradient-radial from-[#ffd700]/5 to-transparent blur-3xl" />
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[300px] sm:w-[600px] h-48 bg-gradient-radial from-white/3 to-transparent blur-3xl" />
       </div>
     </footer>
   );

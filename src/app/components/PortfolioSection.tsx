@@ -78,7 +78,7 @@ function ProjectCard({ project, index, onVideoClick }: { project: any, index: nu
 
   return (
     <motion.div
-      className="relative flex-shrink-0 w-[450px] h-[550px] perspective-1000"
+      className="relative flex-shrink-0 w-[85vw] sm:w-[420px] md:w-[450px] h-[520px] sm:h-[550px] perspective-1000"
       initial={{ opacity: 0, y: 100 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: index * 0.1 }}
@@ -100,9 +100,8 @@ function ProjectCard({ project, index, onVideoClick }: { project: any, index: nu
         <div className={`absolute inset-0 bg-gradient-to-br ${gradient} backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden backface-hidden`}>
           
           {/* Project preview area */}
-          <div className="relative h-64 bg-black/30 overflow-hidden">
+          <div className="relative h-56 sm:h-64 bg-black/30 overflow-hidden">
             {(isVideo || isImage) && project.thumbnailUrl ? (
-              // Static demo screenshot
               <div className="absolute inset-0">
                 <img 
                   src={project.thumbnailUrl}
@@ -112,7 +111,6 @@ function ProjectCard({ project, index, onVideoClick }: { project: any, index: nu
                 <div className={`absolute inset-0 ${isImage ? 'bg-black/20 group-hover:bg-black/10' : 'bg-black/40'} transition-colors duration-300`} />
               </div>
             ) : (
-              // Animated preview background for projects without an image
               <motion.div
                 className="absolute inset-0"
                 style={{
@@ -153,17 +151,17 @@ function ProjectCard({ project, index, onVideoClick }: { project: any, index: nu
                 transition={{ duration: 0.3 }}
               >
                 <motion.div
-                  className="w-20 h-20 rounded-full backdrop-blur-sm border border-white/20 flex items-center justify-center bg-red-600/80"
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full backdrop-blur-sm border border-white/20 flex items-center justify-center bg-red-600/80"
                   whileHover={{ scale: 1.1, backgroundColor: '#dc2626' }}
                 >
-                  <Youtube className="w-10 h-10 text-white" />
+                  <Youtube className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                 </motion.div>
               </motion.div>
             )}
 
             {/* VIDEO badge — only for video type */}
             {isVideo && (
-              <div className="absolute top-6 left-6 px-3 py-1 bg-red-600 rounded-full text-white text-xs font-semibold flex items-center space-x-1">
+              <div className="absolute top-4 sm:top-6 left-4 sm:left-6 px-3 py-1 bg-red-600 rounded-full text-white text-xs font-semibold flex items-center space-x-1">
                 <Youtube className="w-3 h-3" />
                 <span>VIDEO</span>
               </div>
@@ -171,53 +169,53 @@ function ProjectCard({ project, index, onVideoClick }: { project: any, index: nu
 
             {/* Corner accent dot */}
             <div 
-              className="absolute top-6 right-6 w-3 h-3 rounded-full opacity-60"
+              className="absolute top-4 sm:top-6 right-4 sm:right-6 w-3 h-3 rounded-full opacity-60"
               style={{ backgroundColor: project.accent }}
             />
           </div>
 
           {/* Project info */}
-          <div className="p-8 space-y-6">
+          <div className="p-5 sm:p-8 space-y-4 sm:space-y-6">
             <div className="flex justify-between items-start">
-              <div className="flex-1">
-                <div className="flex items-center space-x-3 mb-2">
-                  <h3 className="text-2xl font-black text-white group-hover:text-glow-white transition-all duration-300">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center space-x-2 sm:space-x-3 mb-2">
+                  <h3 className="text-xl sm:text-2xl font-black text-white group-hover:text-glow-white transition-all duration-300 truncate">
                     {project.title}
                   </h3>
                   <div 
-                    className="w-2 h-2 rounded-full"
+                    className="w-2 h-2 rounded-full flex-shrink-0"
                     style={{ backgroundColor: project.accent }}
                   />
                 </div>
                 
-                <p className="text-sm text-white/60 uppercase tracking-wider mb-4">
+                <p className="text-xs sm:text-sm text-white/60 uppercase tracking-wider mb-3 sm:mb-4">
                   {project.category} • {project.year}
                 </p>
                 
-                <p className="text-white/70 leading-relaxed group-hover:text-white/90 transition-colors duration-300">
+                <p className="text-sm sm:text-base text-white/70 leading-relaxed group-hover:text-white/90 transition-colors duration-300 line-clamp-2 sm:line-clamp-none">
                   {project.description}
                 </p>
               </div>
 
               <motion.div
-                className="ml-4"
+                className="ml-3 sm:ml-4 flex-shrink-0"
                 whileHover={{ scale: 1.1, rotate: 10 }}
               >
                 {isVideo ? (
-                  <Youtube className="w-6 h-6 text-white/40 group-hover:text-red-500 transition-colors duration-300" />
+                  <Youtube className="w-5 h-5 sm:w-6 sm:h-6 text-white/40 group-hover:text-red-500 transition-colors duration-300" />
                 ) : (
-                  <ExternalLink className="w-6 h-6 text-white/40 group-hover:text-white transition-colors duration-300" aria-hidden="true" />
+                  <ExternalLink className="w-5 h-5 sm:w-6 sm:h-6 text-white/40 group-hover:text-white transition-colors duration-300" aria-hidden="true" />
                 )}
               </motion.div>
             </div>
 
             {/* Bottom row with technologies and action button */}
-            <div className="flex justify-between items-center pt-4 border-t border-white/10">
-              <div className="flex items-center space-x-2">
-                {project.technologies?.slice(0, 3).map((tech: string, i: number) => (
+            <div className="flex justify-between items-center pt-3 sm:pt-4 border-t border-white/10">
+              <div className="flex items-center space-x-1 sm:space-x-2 overflow-hidden">
+                {project.technologies?.slice(0, 2).map((tech: string, i: number) => (
                   <span 
                     key={i}
-                    className="px-2 py-1 text-xs bg-white/10 text-white/70 rounded-full"
+                    className="px-2 py-1 text-xs bg-white/10 text-white/70 rounded-full whitespace-nowrap"
                   >
                     {tech}
                   </span>
@@ -225,7 +223,7 @@ function ProjectCard({ project, index, onVideoClick }: { project: any, index: nu
               </div>
 
               <motion.div
-                className="px-4 py-2 rounded-full text-xs uppercase tracking-wider border"
+                className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs uppercase tracking-wider border flex-shrink-0 ml-2"
                 style={{ 
                   borderColor: `${project.accent}30`,
                   backgroundColor: `${project.accent}10`,
@@ -236,7 +234,7 @@ function ProjectCard({ project, index, onVideoClick }: { project: any, index: nu
                   borderColor: `${project.accent}50`,
                 }}
               >
-                {isVideo ? 'Watch Video' : 'View Project'}
+                {isVideo ? 'Watch' : 'View'}
               </motion.div>
             </div>
           </div>
@@ -298,7 +296,7 @@ export function PortfolioSection() {
     <section 
       id="portfolio"
       ref={sectionRef}
-      className="min-h-screen py-32 relative overflow-hidden"
+      className="min-h-screen py-20 sm:py-32 relative overflow-hidden"
       style={{
         background: `
           radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
@@ -339,7 +337,7 @@ export function PortfolioSection() {
       </div>
 
       {/* Header */}
-      <div className="max-w-7xl mx-auto px-6 mb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-10 sm:mb-16">
         <motion.div
           className="text-center"
           initial={{ opacity: 0, y: 100 }}
@@ -347,7 +345,7 @@ export function PortfolioSection() {
           transition={{ duration: 1, ease: "easeOut" }}
           viewport={{ once: true }}
         >
-          <h2 className="text-6xl lg:text-8xl font-black leading-none mb-8">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-none mb-6 sm:mb-8">
             <span className="text-white">My</span>
             <br />
             <span className="bg-gradient-to-r from-white via-[#c0c0c0] to-[#ffd700] bg-clip-text text-transparent">
@@ -355,9 +353,9 @@ export function PortfolioSection() {
             </span>
           </h2>
 
-          <div className="w-32 h-1 bg-gradient-to-r from-[#ffd700] via-white to-transparent mx-auto mb-8" />
+          <div className="w-32 h-1 bg-gradient-to-r from-[#ffd700] via-white to-transparent mx-auto mb-6 sm:mb-8" />
           
-          <p className="text-2xl text-white/70 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-2xl text-white/70 max-w-4xl mx-auto leading-relaxed px-2">
             Showcasing my <span className="text-[#ffd700]">web development</span> and 
             <span className="text-white"> graphic design projects</span>
           </p>
@@ -368,7 +366,7 @@ export function PortfolioSection() {
       <div className="relative">
         <motion.div 
           ref={scrollRef}
-          className="flex space-x-8 px-6"
+          className="flex space-x-6 sm:space-x-8 px-4 sm:px-6"
           style={{ x }}
         >
           {siteConfig.portfolio.map((project, index) => (
@@ -383,13 +381,13 @@ export function PortfolioSection() {
 
         {/* Scroll indicators */}
         <motion.div
-          className="text-center mt-16"
+          className="text-center mt-10 sm:mt-16"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
           viewport={{ once: true }}
         >
-          <p className="text-white/40 text-sm uppercase tracking-wider mb-4">
+          <p className="text-white/40 text-xs sm:text-sm uppercase tracking-wider mb-3 sm:mb-4">
             Scroll to explore my projects
           </p>
           <div className="flex justify-center space-x-2">

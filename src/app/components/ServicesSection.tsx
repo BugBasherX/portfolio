@@ -55,7 +55,7 @@ function ServiceCard({ service, index }: { service: any, index: number }) {
       onMouseLeave={handleMouseLeave}
     >
       <motion.div
-        className="relative h-96 preserve-3d cursor-pointer"
+        className="relative h-80 sm:h-96 preserve-3d cursor-pointer"
         style={{ rotateX, rotateY }}
         whileHover={{ 
           z: 50,
@@ -63,7 +63,7 @@ function ServiceCard({ service, index }: { service: any, index: number }) {
         }}
       >
         {/* Main card */}
-        <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} backdrop-blur-xl border border-white/10 rounded-3xl p-8 flex flex-col justify-between backface-hidden overflow-hidden`}>
+        <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} backdrop-blur-xl border border-white/10 rounded-3xl p-6 sm:p-8 flex flex-col justify-between backface-hidden overflow-hidden`}>
           
           {/* Background pattern */}
           <div className="absolute inset-0 opacity-5">
@@ -75,7 +75,7 @@ function ServiceCard({ service, index }: { service: any, index: number }) {
           {/* Top section */}
           <div className="relative z-10">
             <motion.div
-              className="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 relative overflow-hidden"
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-4 sm:mb-6 relative overflow-hidden"
               style={{ backgroundColor: `${service.accent}15` }}
               whileHover={{ 
                 scale: 1.1,
@@ -84,22 +84,20 @@ function ServiceCard({ service, index }: { service: any, index: number }) {
               }}
             >
               <service.icon 
-                className="w-10 h-10 transition-all duration-300 group-hover:scale-110"
+                className="w-8 h-8 sm:w-10 sm:h-10 transition-all duration-300 group-hover:scale-110"
                 style={{ color: service.accent }}
               />
-              
-              {/* Icon background glow */}
               <div 
                 className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"
                 style={{ backgroundColor: `${service.accent}20` }}
               />
             </motion.div>
 
-            <h3 className="text-2xl font-black text-white mb-4 group-hover:text-glow-white transition-all duration-300">
+            <h3 className="text-xl sm:text-2xl font-black text-white mb-3 sm:mb-4 group-hover:text-glow-white transition-all duration-300">
               {service.title}
             </h3>
 
-            <p className="text-white/70 leading-relaxed group-hover:text-white/90 transition-colors duration-300">
+            <p className="text-sm sm:text-base text-white/70 leading-relaxed group-hover:text-white/90 transition-colors duration-300">
               {service.description}
             </p>
           </div>
@@ -193,7 +191,7 @@ function ServiceCard({ service, index }: { service: any, index: number }) {
 
 export function ServicesSection() {
   return (
-    <section id="services" className="min-h-screen py-32 px-6 relative overflow-hidden bg-gradient-to-b from-[#000000] to-[#1a1a1a]">
+    <section id="services" className="min-h-screen py-20 sm:py-32 px-4 sm:px-6 relative overflow-hidden bg-gradient-to-b from-[#000000] to-[#1a1a1a]">
       {/* Background elements */}
       <div className="absolute inset-0">
         {[...Array(40)].map((_, i) => (
@@ -224,21 +222,21 @@ export function ServicesSection() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
-          className="text-center mb-20"
+          className="text-center mb-12 sm:mb-20"
           initial={{ opacity: 0, y: 100 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
           viewport={{ once: true }}
         >
           <motion.div
-            className="flex items-center justify-center mb-6"
+            className="flex items-center justify-center mb-4 sm:mb-6"
             animate={{ rotate: 360 }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           >
-            <Sparkles className="w-12 h-12 text-[#ffd700]" />
+            <Sparkles className="w-8 h-8 sm:w-12 sm:h-12 text-[#ffd700]" />
           </motion.div>
 
-          <h2 className="text-6xl lg:text-8xl font-black leading-none mb-8">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-none mb-6 sm:mb-8">
             <span className="text-white">Our</span>
             <br />
             <span className="bg-gradient-to-r from-white via-[#c0c0c0] to-[#ffd700] bg-clip-text text-transparent">
@@ -246,16 +244,16 @@ export function ServicesSection() {
             </span>
           </h2>
 
-          <div className="w-32 h-1 bg-gradient-to-r from-[#ffd700] via-white to-transparent mx-auto mb-8" />
+          <div className="w-32 h-1 bg-gradient-to-r from-[#ffd700] via-white to-transparent mx-auto mb-6 sm:mb-8" />
           
-          <p className="text-2xl text-white/70 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg md:text-2xl text-white/70 max-w-4xl mx-auto leading-relaxed px-2">
             Delivering <span className="text-[#ffd700]">full-stack solutions</span> and 
             <span className="text-white"> creative design</span> from Nepal to the world
           </p>
         </motion.div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10">
           {services.map((service, index) => (
             <ServiceCard key={service.title} service={service} index={index} />
           ))}
@@ -263,26 +261,26 @@ export function ServicesSection() {
 
         {/* Call to Action */}
         <motion.div
-          className="text-center mt-20"
+          className="text-center mt-12 sm:mt-20"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
           viewport={{ once: true }}
         >
           <motion.button
-            className="group relative px-16 py-6 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-full text-white text-xl overflow-hidden"
+            className="group relative w-full sm:w-auto px-8 sm:px-16 py-4 sm:py-6 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-full text-white text-base sm:text-xl overflow-hidden"
             whileHover={{ 
               scale: 1.05,
               boxShadow: "0 0 50px rgba(255, 255, 255, 0.3)"
             }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
           >
-            <span className="relative z-10 flex items-center space-x-4">
-              <Sparkles className="w-6 h-6" />
+            <span className="relative z-10 flex items-center justify-center space-x-3 sm:space-x-4">
+              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />
               <span>Let's Work Together</span>
             </span>
             
-            {/* Animated background */}
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-[#ffd700]/20 via-white/20 to-[#c0c0c0]/20"
               initial={{ x: "-100%" }}

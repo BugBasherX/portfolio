@@ -3,3 +3,7 @@
 @import 'tw-animate-css';
 @import './default_theme.css';
 @import './globals.css';
+
+@theme {
+  --breakpoint-xs: 480px;
+}
