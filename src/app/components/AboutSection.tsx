@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+import { motion } from "motion/react";
 import { Award, Users, Lightbulb, Target } from "lucide-react";
 import { siteConfig } from "../config/siteConfig";
 
@@ -16,20 +15,10 @@ const techStack = [
   { category: "Frontend", skills: ["React.js", "Next.js", "TypeScript", "Tailwind CSS", "HTML/CSS"] },
   { category: "Backend", skills: ["Node.js", "Express.js", "Python", "REST API", "GraphQL"] },
   { category: "Database", skills: ["MongoDB", "MySQL", "PostgreSQL"] },
-  { category: "Design", skills: ["Figma", "Adobe XD", "Photoshop", "Illustrator", "Canva"] },
+  { category: "Design", skills: ["Figma", "Adobe XD", "Photoshop", "Illustrator"] },
 ];
 
 export function AboutSection() {
-  const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const rotateY = useTransform(scrollYProgress, [0, 1], [0, 720]);
-  const rotateX = useTransform(scrollYProgress, [0, 1], [0, 360]);
-  const scale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.8, 1.1, 1.1, 0.8]);
-
   const stats = siteConfig.company.about.statistics.map((s) => ({
     icon: iconMap[s.icon] ?? Award,
     value: s.value,
@@ -40,239 +29,110 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      ref={sectionRef}
-      className="min-h-screen flex items-center justify-center py-20 sm:py-32 px-4 sm:px-6 relative overflow-hidden"
+      className="min-h-screen flex items-center justify-center py-20 sm:py-32 px-4 sm:px-6 bg-black relative"
       style={{
         background: `
-          radial-gradient(circle at 25% 75%, rgba(255, 215, 0, 0.03) 0%, transparent 50%),
-          radial-gradient(circle at 75% 25%, rgba(255, 255, 255, 0.02) 0%, transparent 50%),
-          linear-gradient(135deg, #1a1a1a 0%, #000000 50%, #1a1a1a 100%)
+          radial-gradient(circle at 75% 30%, rgba(255, 215, 0, 0.02) 0%, transparent 50%),
+          #000000
         `
       }}
     >
-      {/* Floating background elements */}
-      <div className="absolute inset-0">
-        {[...Array(8)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full opacity-20"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              width: `${Math.random() * 200 + 50}px`,
-              height: `${Math.random() * 200 + 50}px`,
-              background: i % 2 === 0 ?
-                "radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)" :
-                "radial-gradient(circle, rgba(255,215,0,0.05) 0%, transparent 70%)",
-              willChange: "transform, opacity",
-            }}
-            animate={{ y: [-20, 20, -20], opacity: [0.1, 0.3, 0.1], scale: [1, 1.1, 1] }}
-            transition={{ duration: 8 + Math.random() * 4, repeat: Infinity, delay: Math.random() * 5, ease: "easeInOut" }}
-          />
-        ))}
-      </div>
-
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center w-full">
-        {/* Content side */}
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start w-full">
+        
+        {/* Left Side: Editorial Bio (7 cols) */}
         <motion.div
-          initial={{ opacity: 0, x: -60 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="space-y-8 sm:space-y-10"
+          className="lg:col-span-7 space-y-8"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            {/* Section badge */}
-            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border border-[#ffd700]/30 bg-[#ffd700]/5 mb-6">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#ffd700] animate-pulse" />
-              <span className="text-[#ffd700] text-xs font-semibold uppercase tracking-widest" style={{ fontFamily: 'var(--font-sans)' }}>
-                About Me
-              </span>
-            </div>
+          {/* Section badge */}
+          <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border border-white/10 bg-white/2 mb-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-white/60" />
+            <span className="text-white/70 text-xs font-semibold uppercase tracking-widest" style={{ fontFamily: 'var(--font-sans)' }}>
+              About Me
+            </span>
+          </div>
 
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-none mb-6 sm:mb-8">
-              <span className="text-white">Meet</span>
-              <br />
-              <span className="bg-gradient-to-r from-white via-[#c0c0c0] to-[#ffd700] bg-clip-text text-transparent">
-                {siteConfig.company.about.title}
-              </span>
-            </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-[#ffd700] to-transparent mb-6 sm:mb-8 rounded-full" />
-          </motion.div>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black leading-none" style={{ fontFamily: 'var(--font-display)' }}>
+            <span className="text-white">Meet</span>
+            <br />
+            <span className="bg-gradient-to-r from-white via-[#c0c0c0] to-[#ffd700] bg-clip-text text-transparent">
+              {siteConfig.company.about.title}
+            </span>
+          </h2>
+          
+          <div className="w-20 h-1 bg-gradient-to-r from-[#ffd700] to-transparent rounded-full" />
 
-          <motion.div
-            className="space-y-4 sm:space-y-6"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
-          >
-            <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed" style={{ fontFamily: 'var(--font-sans)' }}>
-              {siteConfig.company.about.paragraphs[0]}
-            </p>
-            <p className="text-base sm:text-lg md:text-xl text-white/70 leading-relaxed" style={{ fontFamily: 'var(--font-sans)' }}>
-              {siteConfig.company.about.paragraphs[1]}
-            </p>
-          </motion.div>
+          {/* Bio paragraphs */}
+          <div className="space-y-6 text-base sm:text-lg text-white/70 leading-relaxed" style={{ fontFamily: 'var(--font-sans)' }}>
+            <p>{siteConfig.company.about.paragraphs[0]}</p>
+            <p>{siteConfig.company.about.paragraphs[1]}</p>
+            <p>{siteConfig.company.about.paragraphs[2]}</p>
+          </div>
 
-          {/* Tech stack categories */}
-          <motion.div
-            className="space-y-4"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            viewport={{ once: true }}
-          >
-            {techStack.map((group, gi) => (
-              <div key={group.category} className="space-y-2">
-                <p className="text-white/40 text-xs uppercase tracking-widest" style={{ fontFamily: 'var(--font-sans)' }}>
-                  {group.category}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {group.skills.map((skill, si) => (
-                    <motion.span
-                      key={skill}
-                      className="px-3 py-1 text-xs rounded-full border border-white/15 text-white/70 hover:text-white hover:border-white/40 transition-colors duration-200 cursor-default"
-                      style={{ backgroundColor: 'rgba(255,255,255,0.04)', fontFamily: 'var(--font-sans)' }}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.3, delay: gi * 0.1 + si * 0.04 }}
-                      viewport={{ once: true }}
-                      whileHover={{ scale: 1.05 }}
-                    >
-                      {skill}
-                    </motion.span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* Statistics */}
-          <motion.div
-            className="grid grid-cols-2 gap-4 sm:gap-5 pt-2"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            viewport={{ once: true }}
-          >
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                className="group relative p-4 sm:p-6 rounded-2xl overflow-hidden border"
-                style={{
-                  borderColor: `${stat.color}20`,
-                  background: `linear-gradient(135deg, ${stat.color}08, rgba(0,0,0,0.3))`,
-                }}
-                whileHover={{ scale: 1.03, borderColor: `${stat.color}50`, boxShadow: `0 0 25px ${stat.color}20` }}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1 + index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                {/* Top accent line */}
-                <div className="absolute top-0 left-0 right-0 h-0.5 rounded-t-2xl" style={{ background: `linear-gradient(90deg, transparent, ${stat.color}60, transparent)` }} />
-
-                <stat.icon
-                  className="w-6 h-6 sm:w-7 sm:h-7 mb-3"
-                  style={{ color: stat.color }}
-                />
-                <div className="text-2xl sm:text-3xl font-black mb-1" style={{ color: stat.color, fontFamily: 'var(--font-display)' }}>
-                  {stat.value}
-                </div>
-                <div className="text-white/50 text-xs uppercase tracking-wider leading-snug" style={{ fontFamily: 'var(--font-sans)' }}>
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </motion.div>
-
-        {/* 3D Visual Element */}
-        <motion.div
-          className="relative flex items-center justify-center perspective-2000 hidden sm:flex"
-          initial={{ opacity: 0, x: 60 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-          viewport={{ once: true }}
-        >
-          <motion.div
-            className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 preserve-3d"
-            style={{ rotateY, rotateX, scale }}
-          >
-            <div className="absolute inset-8 preserve-3d">
-              {[0, 60, 120, 180, 240, 300].map((rotation, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute inset-0 preserve-3d"
-                  style={{ rotateY: rotation }}
-                  animate={{ rotateZ: [0, 360] }}
-                  transition={{ duration: 15 + i * 2, repeat: Infinity, ease: "linear" }}
-                >
-                  <div
-                    className="absolute inset-0 bg-gradient-to-br from-white/15 to-transparent border border-white/20 glass-effect"
-                    style={{
-                      transform: `translateZ(${60 + i * 10}px)`,
-                      clipPath: "polygon(30% 0%, 70% 0%, 100% 100%, 0% 100%)",
-                    }}
-                  >
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                      animate={{ x: ["-100%", "100%"] }}
-                      transition={{ duration: 3, repeat: Infinity, delay: i * 0.5, ease: "easeInOut" }}
-                    />
+          {/* Tech Stack organized neatly */}
+          <div className="pt-4 space-y-6">
+            <h3 className="text-sm font-semibold uppercase tracking-widest text-white/40" style={{ fontFamily: 'var(--font-sans)' }}>
+              Core Technologies
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {techStack.map((group) => (
+                <div key={group.category} className="space-y-2">
+                  <h4 className="text-xs uppercase tracking-widest text-[#ffd700]" style={{ fontFamily: 'var(--font-sans)' }}>
+                    {group.category}
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {group.skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="px-3 py-1 text-xs rounded-full border border-white/10 text-white/75 bg-white/2 transition-colors duration-300 hover:border-white/30"
+                        style={{ fontFamily: 'var(--font-sans)' }}
+                      >
+                        {skill}
+                      </span>
+                    ))}
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
-
-            {[...Array(8)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-5 h-5 sm:w-6 sm:h-6 rounded-full preserve-3d"
-                style={{
-                  background: i % 3 === 0 ? "linear-gradient(45deg, #ffd700, #ffed4e)" :
-                    i % 3 === 1 ? "linear-gradient(45deg, #ffffff, #e5e4e2)" :
-                    "linear-gradient(45deg, #c0c0c0, #808080)",
-                  transformOrigin: `${120 + i * 15}px center`,
-                  left: "50%",
-                  top: "50%",
-                }}
-                animate={{ rotateY: [0, 360], rotateZ: [360, 0] }}
-                transition={{ duration: 8 + i, repeat: Infinity, ease: "linear" }}
-              >
-                <div className="absolute inset-0 rounded-full glow-white animate-pulse-glow" />
-              </motion.div>
-            ))}
-
-            <motion.div
-              className="absolute inset-20 sm:inset-24 bg-gradient-to-br from-[#ffd700]/30 to-white/10 rounded-full border border-[#ffd700]/30"
-              animate={{ scale: [1, 1.1, 1], opacity: [0.6, 1, 0.6] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <div className="absolute inset-2 bg-gradient-radial from-white/20 to-transparent rounded-full animate-pulse-glow" />
-            </motion.div>
-          </motion.div>
-
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-gradient-radial from-white/5 to-transparent blur-3xl" />
-            <div className="absolute top-1/4 right-1/4 w-32 h-32 sm:w-48 sm:h-48 bg-gradient-radial from-[#ffd700]/10 to-transparent blur-2xl animate-float" />
           </div>
         </motion.div>
-      </div>
 
-      <motion.div
-        className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        transition={{ duration: 1.5, delay: 0.5 }}
-        viewport={{ once: true }}
-      />
+        {/* Right Side: Visual Metrics & Statistics (5 cols) */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          viewport={{ once: true }}
+          className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 w-full lg:sticky lg:top-24"
+        >
+          {stats.map((stat) => (
+            <div
+              key={stat.label}
+              className="p-6 sm:p-8 rounded-2xl border bg-gradient-to-br from-white/4 to-transparent flex flex-col justify-between"
+              style={{
+                borderColor: `${stat.color}15`,
+              }}
+            >
+              <stat.icon
+                className="w-6 h-6 sm:w-8 sm:h-8 mb-4"
+                style={{ color: stat.color }}
+              />
+              <div className="space-y-2">
+                <div className="text-3xl sm:text-4xl font-black" style={{ color: stat.color, fontFamily: 'var(--font-display)' }}>
+                  {stat.value}
+                </div>
+                <div className="text-white/50 text-xs sm:text-sm uppercase tracking-wider leading-snug" style={{ fontFamily: 'var(--font-sans)' }}>
+                  {stat.label}
+                </div>
+              </div>
+            </div>
+          ))}
+        </motion.div>
+
+      </div>
     </section>
   );
 }
