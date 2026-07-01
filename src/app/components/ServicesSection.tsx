@@ -2,7 +2,7 @@
 
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { Palette, Code, Zap, Globe, Eye, Diamond, Sparkles } from "lucide-react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { siteConfig } from "../config/siteConfig";
 
 const iconSequence = [Code, Eye, Palette, Globe, Zap, Diamond];
@@ -22,6 +22,7 @@ const services = siteConfig.services.map((s, i) => ({
 
 function ServiceCard({ service, index }: { service: any, index: number }) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = useState(false);
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -38,7 +39,12 @@ function ServiceCard({ service, index }: { service: any, index: number }) {
     }
   };
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
   const handleMouseLeave = () => {
+    setIsHovered(false);
     mouseX.set(0);
     mouseY.set(0);
   };
@@ -52,6 +58,7 @@ function ServiceCard({ service, index }: { service: any, index: number }) {
       transition={{ duration: 0.8, delay: index * 0.1, ease: "easeOut" }}
       viewport={{ once: true }}
       onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <motion.div
@@ -63,7 +70,10 @@ function ServiceCard({ service, index }: { service: any, index: number }) {
         }}
       >
         {/* Main card */}
-        <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} backdrop-blur-xl border border-white/10 rounded-3xl p-6 sm:p-8 flex flex-col justify-between backface-hidden overflow-hidden`}>
+        <div 
+          className={`absolute inset-0 bg-gradient-to-br ${service.gradient} backdrop-blur-xl border rounded-3xl p-6 sm:p-8 flex flex-col justify-between backface-hidden overflow-hidden transition-all duration-300`}
+          style={{ borderColor: isHovered ? `${service.accent}40` : 'rgba(255,255,255,0.1)', boxShadow: isHovered ? `0 0 30px ${service.accent}15` : 'none' }}
+        >
           
           {/* Background pattern */}
           <div className="absolute inset-0 opacity-5">
@@ -229,27 +239,27 @@ export function ServicesSection() {
           transition={{ duration: 1, ease: "easeOut" }}
           viewport={{ once: true }}
         >
-          <motion.div
-            className="flex items-center justify-center mb-4 sm:mb-6"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          >
-            <Sparkles className="w-8 h-8 sm:w-12 sm:h-12 text-[#ffd700]" />
-          </motion.div>
+          {/* Section badge */}
+          <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border border-white/20 bg-white/5 mb-6">
+            <div className="w-1.5 h-1.5 rounded-full bg-white/60 animate-pulse" />
+            <span className="text-white/70 text-xs font-semibold uppercase tracking-widest" style={{ fontFamily: 'var(--font-sans)' }}>
+              Services
+            </span>
+          </div>
 
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-none mb-6 sm:mb-8">
-            <span className="text-white">Our</span>
+            <span className="text-white">What I</span>
             <br />
             <span className="bg-gradient-to-r from-white via-[#c0c0c0] to-[#ffd700] bg-clip-text text-transparent">
-              Services
+              Offer
             </span>
           </h2>
 
-          <div className="w-32 h-1 bg-gradient-to-r from-[#ffd700] via-white to-transparent mx-auto mb-6 sm:mb-8" />
+          <div className="w-32 h-1 bg-gradient-to-r from-[#ffd700] via-white to-transparent mx-auto mb-6 sm:mb-8 rounded-full" />
           
-          <p className="text-base sm:text-lg md:text-2xl text-white/70 max-w-4xl mx-auto leading-relaxed px-2">
-            Delivering <span className="text-[#ffd700]">full-stack solutions</span> and 
-            <span className="text-white"> creative design</span> from Nepal to the world
+          <p className="text-base sm:text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed px-2" style={{ fontFamily: 'var(--font-sans)' }}>
+            Delivering <span className="text-[#ffd700]">full-stack solutions</span> and{" "}
+            <span className="text-white">creative design</span> from Nepal to the world
           </p>
         </motion.div>
 

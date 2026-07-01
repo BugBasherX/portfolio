@@ -37,7 +37,7 @@ export function ContactSection() {
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const particles = useMemo(() =>
-    [...Array(50)].map((_, i) => ({
+    [...Array(12)].map((_, i) => ({
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
       width: `${Math.random() * 4 + 2}px`,
@@ -153,6 +153,7 @@ export function ContactSection() {
                 p.colorIndex === 1 ?
                 "linear-gradient(45deg, #c0c0c0, #a8a8a8)" :
                 "linear-gradient(45deg, #ffd700, #ffed4e)",
+              willChange: "transform, opacity",
             }}
             animate={{
               opacity: [0.1, 0.6, 0.1],
@@ -178,13 +179,13 @@ export function ContactSection() {
           transition={{ duration: 1, ease: "easeOut" }}
           viewport={{ once: true }}
         >
-          <motion.div
-            className="flex items-center justify-center mb-6 sm:mb-8"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          >
-            <MessageSquare className="w-10 h-10 sm:w-16 sm:h-16 text-[#ffd700]" />
-          </motion.div>
+          {/* Section badge */}
+          <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border border-[#ffd700]/30 bg-[#ffd700]/5 mb-6">
+            <div className="w-1.5 h-1.5 rounded-full bg-[#ffd700] animate-pulse" />
+            <span className="text-[#ffd700] text-xs font-semibold uppercase tracking-widest" style={{ fontFamily: 'var(--font-sans)' }}>
+              Contact
+            </span>
+          </div>
 
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-none mb-6 sm:mb-8">
             <span className="text-white">Get In</span>
@@ -194,11 +195,11 @@ export function ContactSection() {
             </span>
           </h2>
 
-          <div className="w-32 h-1 bg-gradient-to-r from-[#ffd700] via-white to-transparent mx-auto mb-6 sm:mb-8" />
+          <div className="w-32 h-1 bg-gradient-to-r from-[#ffd700] via-white to-transparent mx-auto mb-6 sm:mb-8 rounded-full" />
           
-          <p className="text-base sm:text-lg md:text-2xl text-white/70 max-w-4xl mx-auto leading-relaxed px-2">
-            Ready to <span className="text-[#ffd700]">bring your idea to life?</span> 
-            <span className="text-white"> Let's build something great together.</span>
+          <p className="text-base sm:text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed px-2" style={{ fontFamily: 'var(--font-sans)' }}>
+            Ready to <span className="text-[#ffd700]">bring your idea to life?</span>{" "}
+            <span className="text-white">Let's build something great together.</span>
           </p>
         </motion.div>
 
@@ -250,7 +251,7 @@ export function ContactSection() {
                       className={`w-full pl-12 pr-4 py-4 sm:pl-14 sm:pr-6 sm:py-6 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-xl border rounded-2xl text-white placeholder-white/40 focus:outline-none transition-all duration-300 text-sm sm:text-base ${touched.name && fieldErrors.name ? 'border-red-500/60' : 'border-white/10 focus:border-white/30'}`}
                     />
                     {focusedField === 'name' && !fieldErrors.name && (
-                      <motion.div className="absolute inset-0 rounded-2xl border border-white/30 pointer-events-none" initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
+                      <motion.div className="absolute inset-0 rounded-2xl border border-[#ffd700]/30 shadow-[0_0_15px_rgba(255,215,0,0.15)] pointer-events-none" initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
                     )}
                   </motion.div>
                   {touched.name && fieldErrors.name && (
@@ -280,7 +281,7 @@ export function ContactSection() {
                       className={`w-full pl-12 pr-4 py-4 sm:pl-14 sm:pr-6 sm:py-6 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-xl border rounded-2xl text-white placeholder-white/40 focus:outline-none transition-all duration-300 text-sm sm:text-base ${touched.email && fieldErrors.email ? 'border-red-500/60' : 'border-white/10 focus:border-white/30'}`}
                     />
                     {focusedField === 'email' && !fieldErrors.email && (
-                      <motion.div className="absolute inset-0 rounded-2xl border border-white/30 pointer-events-none" initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
+                      <motion.div className="absolute inset-0 rounded-2xl border border-[#ffd700]/30 shadow-[0_0_15px_rgba(255,215,0,0.15)] pointer-events-none" initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
                     )}
                   </motion.div>
                   {touched.email && fieldErrors.email && (
@@ -308,7 +309,7 @@ export function ContactSection() {
                     className={`w-full px-4 py-4 sm:px-6 sm:py-6 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-xl border rounded-2xl text-white placeholder-white/40 focus:outline-none transition-all duration-300 text-sm sm:text-base ${touched.subject && fieldErrors.subject ? 'border-red-500/60' : 'border-white/10 focus:border-white/30'}`}
                   />
                   {focusedField === 'subject' && !fieldErrors.subject && (
-                    <motion.div className="absolute inset-0 rounded-2xl border border-white/30 pointer-events-none" initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
+                    <motion.div className="absolute inset-0 rounded-2xl border border-[#ffd700]/30 shadow-[0_0_15px_rgba(255,215,0,0.15)] pointer-events-none" initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
                   )}
                 </motion.div>
                 {touched.subject && fieldErrors.subject && (
@@ -335,7 +336,7 @@ export function ContactSection() {
                     className={`w-full px-4 py-4 sm:px-6 sm:py-6 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-xl border rounded-2xl text-white placeholder-white/40 focus:outline-none transition-all duration-300 resize-none text-sm sm:text-base ${touched.message && fieldErrors.message ? 'border-red-500/60' : 'border-white/10 focus:border-white/30'}`}
                   />
                   {focusedField === 'message' && !fieldErrors.message && (
-                    <motion.div className="absolute inset-0 rounded-2xl border border-white/30 pointer-events-none" initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
+                    <motion.div className="absolute inset-0 rounded-2xl border border-[#ffd700]/30 shadow-[0_0_15px_rgba(255,215,0,0.15)] pointer-events-none" initial={{ opacity: 0 }} animate={{ opacity: 1 }} />
                   )}
                 </motion.div>
                 {touched.message && fieldErrors.message && (
@@ -374,10 +375,11 @@ export function ContactSection() {
                 type="submit"
                 disabled={isSubmitting}
                 aria-busy={isSubmitting}
-                className="group relative w-full px-6 py-4 sm:px-8 sm:py-6 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl text-white text-base sm:text-lg overflow-hidden transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="group relative w-full px-6 py-4 sm:px-8 sm:py-6 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-xl border border-white/20 rounded-2xl text-white text-base sm:text-lg overflow-hidden transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed font-semibold"
                 whileHover={{ 
                   scale: 1.02,
-                  boxShadow: "0 0 50px rgba(255, 255, 255, 0.2)"
+                  borderColor: "rgba(255,215,0,0.5)",
+                  boxShadow: "0 0 35px rgba(255,215,0,0.25)"
                 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -455,12 +457,12 @@ export function ContactSection() {
                   </motion.div>
                   
                   <div className="flex-1 min-w-0">
-                    <p className="text-white/60 text-xs sm:text-sm uppercase tracking-wider mb-1">
+                    <p className="text-white/50 text-xs sm:text-sm uppercase tracking-widest mb-1" style={{ fontFamily: 'var(--font-sans)' }}>
                       {info.label}
                     </p>
                     <p 
-                      className="text-base sm:text-lg group-hover:scale-105 transition-transform duration-300 truncate"
-                      style={{ color: info.accent }}
+                      className="text-base sm:text-lg font-medium truncate"
+                      style={{ color: info.accent, fontFamily: 'var(--font-sans)' }}
                     >
                       {info.value}
                     </p>

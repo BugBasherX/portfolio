@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import { useMemo } from "react";
-import { Github, Twitter, Linkedin, Instagram, ArrowUp, Star, Diamond, Sparkles } from "lucide-react";
+import { Github, Twitter, Linkedin, Instagram, ArrowUp } from "lucide-react";
 import { siteConfig } from "../config/siteConfig";
 import logo from 'figma:asset/e9afabb7434f237f121fca51dffa09ee3fce323e.png';
 
@@ -150,13 +150,13 @@ export function Footer() {
             transition={{ duration: 0.8, delay: 0.6 }}
             viewport={{ once: true }}
           >
-            <p className="text-base sm:text-xl md:text-2xl text-white/70 max-w-4xl mx-auto leading-relaxed px-2">
+            <p className="text-base sm:text-xl md:text-2xl text-white/70 max-w-4xl mx-auto leading-relaxed px-2" style={{ fontFamily: 'var(--font-sans)' }}>
               <span className="text-[#ffd700]">{siteConfig.footerTagline.phrase1}</span>{" "}
               <span className="text-white">{siteConfig.footerTagline.phrase2}</span>{" "}
               <span className="text-[#c0c0c0]">{siteConfig.footerTagline.phrase3}</span>
             </p>
             
-            <p className="text-white/50 max-w-3xl mx-auto text-sm sm:text-base px-4">
+            <p className="text-white/50 max-w-3xl mx-auto text-sm sm:text-base px-4" style={{ fontFamily: 'var(--font-sans)' }}>
               {siteConfig.company.description}
             </p>
           </motion.div>
@@ -249,6 +249,7 @@ export function Footer() {
           {/* Enhanced copyright */}
           <motion.p
             className="text-white/40 text-xs sm:text-sm leading-relaxed"
+            style={{ fontFamily: 'var(--font-sans)' }}
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1.4 }}
