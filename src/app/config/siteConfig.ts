@@ -1,10 +1,10 @@
 // KONCEPT Website Configuration
 // Update this file with your personal/business details
 
-import ecommerceImg from '../../assets/portfolio-ecommerce.webp';
-import portfolioImg from '../../assets/portfolio-portfolio.webp';
-import ngoImg from '../../assets/portfolio-ngo.webp';
-import uilib from '../../assets/portfolio-uilib.webp';
+import ecommerceImg from '../../assets/portfolio-ecommerce.png';
+import portfolioImg from '../../assets/portfolio-portfolio.png';
+import ngoImg from '../../assets/portfolio-ngo.png';
+import uilib from '../../assets/portfolio-uilib.png';
 
 export const siteConfig = {
   // Company/Personal Information
