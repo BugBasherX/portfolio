@@ -7,7 +7,7 @@
     "node": "24.x"
   },
   "scripts": {
-    "build": "vite build",
+    "build": "vite build --emptyOutDir",
     "dev": "vite --host 0.0.0.0 --port 5000",
     "preview": "vite preview --host 0.0.0.0 --port 5000",
     "pages:deploy": "wrangler pages deploy dist"
