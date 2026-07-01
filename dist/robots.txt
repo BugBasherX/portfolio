@@ -1,4 +1,13 @@
 User-agent: *
 Allow: /
 
+# Disallow build artifacts
+Disallow: /dist/
+Disallow: /node_modules/
+Disallow: /.git/
+
+# Sitemap
 Sitemap: https://yubrajkurmi.com.np/sitemap.xml
+
+# Crawl-delay hint for polite bots
+Crawl-delay: 1
