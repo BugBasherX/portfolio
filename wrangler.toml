@@ -1,5 +1,3 @@
 name = "yubrajkurmi-portfolio"
 pages_build_output_dir = "dist"
-
-[build]
-command = "npm install && npm run build"
+compatibility_date = "2026-07-01"
