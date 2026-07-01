@@ -8,7 +8,9 @@
   },
   "scripts": {
     "build": "vite build",
-    "dev": "vite --host 0.0.0.0 --port 5000"
+    "dev": "vite --host 0.0.0.0 --port 5000",
+    "preview": "vite preview --host 0.0.0.0 --port 5000",
+    "pages:deploy": "wrangler pages deploy dist"
   },
   "dependencies": {
     "class-variance-authority": "0.7.1",
@@ -28,6 +30,7 @@
     "@vitejs/plugin-react": "^4.7.0",
     "tailwindcss": "^4.1.12",
     "typescript": "^5.8.3",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "wrangler": "^4.106.0"
   }
 }

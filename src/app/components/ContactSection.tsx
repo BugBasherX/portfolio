@@ -64,7 +64,7 @@ export function ContactSection() {
     setFieldErrors({});
 
     try {
-      const FORMSPREE_ID = "";
+      const FORMSPREE_ID = import.meta.env.VITE_FORMSPREE_ID || "";
 
       if (FORMSPREE_ID) {
         const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
