@@ -12,6 +12,13 @@ const iconMap: Record<string, React.ElementType> = {
   Target,
 };
 
+const techStack = [
+  { category: "Frontend", skills: ["React.js", "Next.js", "TypeScript", "Tailwind CSS", "HTML/CSS"] },
+  { category: "Backend", skills: ["Node.js", "Express.js", "Python", "REST API", "GraphQL"] },
+  { category: "Database", skills: ["MongoDB", "MySQL", "PostgreSQL"] },
+  { category: "Design", skills: ["Figma", "Adobe XD", "Photoshop", "Illustrator", "Canva"] },
+];
+
 export function AboutSection() {
   const sectionRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -45,7 +52,7 @@ export function AboutSection() {
     >
       {/* Floating background elements */}
       <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full opacity-20"
@@ -57,6 +64,7 @@ export function AboutSection() {
               background: i % 2 === 0 ?
                 "radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)" :
                 "radial-gradient(circle, rgba(255,215,0,0.05) 0%, transparent 70%)",
+              willChange: "transform, opacity",
             }}
             animate={{ y: [-20, 20, -20], opacity: [0.1, 0.3, 0.1], scale: [1, 1.1, 1] }}
             transition={{ duration: 8 + Math.random() * 4, repeat: Infinity, delay: Math.random() * 5, ease: "easeInOut" }}
@@ -71,7 +79,7 @@ export function AboutSection() {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
           viewport={{ once: true }}
-          className="space-y-8 sm:space-y-12"
+          className="space-y-8 sm:space-y-10"
         >
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -79,37 +87,75 @@ export function AboutSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
+            {/* Section badge */}
+            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border border-[#ffd700]/30 bg-[#ffd700]/5 mb-6">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#ffd700] animate-pulse" />
+              <span className="text-[#ffd700] text-xs font-semibold uppercase tracking-widest" style={{ fontFamily: 'var(--font-sans)' }}>
+                About Me
+              </span>
+            </div>
+
             <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-none mb-6 sm:mb-8">
-              <span className="text-white">About</span>
+              <span className="text-white">Meet</span>
               <br />
               <span className="bg-gradient-to-r from-white via-[#c0c0c0] to-[#ffd700] bg-clip-text text-transparent">
                 {siteConfig.company.about.title}
               </span>
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-[#ffd700] to-transparent mb-6 sm:mb-8" />
+            <div className="w-24 h-1 bg-gradient-to-r from-[#ffd700] to-transparent mb-6 sm:mb-8 rounded-full" />
           </motion.div>
 
           <motion.div
-            className="space-y-5 sm:space-y-8"
+            className="space-y-4 sm:space-y-6"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-white/80 leading-relaxed" style={{ fontFamily: 'var(--font-sans)' }}>
               {siteConfig.company.about.paragraphs[0]}
             </p>
-            <p className="text-base sm:text-lg md:text-xl text-white/70 leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-white/70 leading-relaxed" style={{ fontFamily: 'var(--font-sans)' }}>
               {siteConfig.company.about.paragraphs[1]}
             </p>
-            <p className="text-base sm:text-lg md:text-xl text-white/70 leading-relaxed">
-              {siteConfig.company.about.paragraphs[2]}
-            </p>
+          </motion.div>
+
+          {/* Tech stack categories */}
+          <motion.div
+            className="space-y-4"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            viewport={{ once: true }}
+          >
+            {techStack.map((group, gi) => (
+              <div key={group.category} className="space-y-2">
+                <p className="text-white/40 text-xs uppercase tracking-widest" style={{ fontFamily: 'var(--font-sans)' }}>
+                  {group.category}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {group.skills.map((skill, si) => (
+                    <motion.span
+                      key={skill}
+                      className="px-3 py-1 text-xs rounded-full border border-white/15 text-white/70 hover:text-white hover:border-white/40 transition-colors duration-200 cursor-default"
+                      style={{ backgroundColor: 'rgba(255,255,255,0.04)', fontFamily: 'var(--font-sans)' }}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3, delay: gi * 0.1 + si * 0.04 }}
+                      viewport={{ once: true }}
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      {skill}
+                    </motion.span>
+                  ))}
+                </div>
+              </div>
+            ))}
           </motion.div>
 
           {/* Statistics */}
           <motion.div
-            className="grid grid-cols-2 gap-4 sm:gap-6 pt-4 sm:pt-8"
+            className="grid grid-cols-2 gap-4 sm:gap-5 pt-2"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
@@ -118,21 +164,28 @@ export function AboutSection() {
             {stats.map((stat, index) => (
               <motion.div
                 key={stat.label}
-                className="group text-center p-4 sm:p-6 rounded-2xl glass-effect border border-white/10"
-                whileHover={{ scale: 1.05, boxShadow: `0 0 30px ${stat.color}30` }}
+                className="group relative p-4 sm:p-6 rounded-2xl overflow-hidden border"
+                style={{
+                  borderColor: `${stat.color}20`,
+                  background: `linear-gradient(135deg, ${stat.color}08, rgba(0,0,0,0.3))`,
+                }}
+                whileHover={{ scale: 1.03, borderColor: `${stat.color}50`, boxShadow: `0 0 25px ${stat.color}20` }}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 1 + index * 0.1 }}
                 viewport={{ once: true }}
               >
+                {/* Top accent line */}
+                <div className="absolute top-0 left-0 right-0 h-0.5 rounded-t-2xl" style={{ background: `linear-gradient(90deg, transparent, ${stat.color}60, transparent)` }} />
+
                 <stat.icon
-                  className="w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-2 sm:mb-3 transition-colors duration-300"
+                  className="w-6 h-6 sm:w-7 sm:h-7 mb-3"
                   style={{ color: stat.color }}
                 />
-                <div className="text-2xl sm:text-3xl font-black mb-1 sm:mb-2" style={{ color: stat.color }}>
+                <div className="text-2xl sm:text-3xl font-black mb-1" style={{ color: stat.color, fontFamily: 'var(--font-display)' }}>
                   {stat.value}
                 </div>
-                <div className="text-white/60 text-xs sm:text-sm uppercase tracking-wider leading-snug">
+                <div className="text-white/50 text-xs uppercase tracking-wider leading-snug" style={{ fontFamily: 'var(--font-sans)' }}>
                   {stat.label}
                 </div>
               </motion.div>
@@ -140,7 +193,7 @@ export function AboutSection() {
           </motion.div>
         </motion.div>
 
-        {/* 3D Visual Element — hidden on small mobile, shown md+ */}
+        {/* 3D Visual Element */}
         <motion.div
           className="relative flex items-center justify-center perspective-2000 hidden sm:flex"
           initial={{ opacity: 0, x: 60 }}

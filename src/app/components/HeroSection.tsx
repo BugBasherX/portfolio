@@ -1,10 +1,21 @@
 "use client";
 
 import { motion, useMotionValue, useTransform, useSpring } from "motion/react";
-import { ChevronDown, Sparkles, Zap } from "lucide-react";
+import { ChevronDown, Sparkles, Zap, ArrowRight } from "lucide-react";
 import { useEffect, useRef, useMemo } from "react";
 import { siteConfig } from "../config/siteConfig";
 import logo from 'figma:asset/e9afabb7434f237f121fca51dffa09ee3fce323e.png';
+
+const skillPills = [
+  { label: "React.js", color: "#61DAFB" },
+  { label: "Node.js", color: "#68A063" },
+  { label: "TypeScript", color: "#3178C6" },
+  { label: "Figma", color: "#F24E1E" },
+  { label: "Python", color: "#FFD43B" },
+  { label: "MongoDB", color: "#47A248" },
+  { label: "Adobe Suite", color: "#FF0000" },
+  { label: "UI/UX", color: "#ffd700" },
+];
 
 export function HeroSection() {
   const mouseX = useMotionValue(0);
@@ -12,7 +23,7 @@ export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
 
   const particles = useMemo(() =>
-    [...Array(100)].map((_, i) => ({
+    [...Array(25)].map((_, i) => ({
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
       width: `${Math.random() * 4 + 1}px`,
@@ -68,6 +79,7 @@ export function HeroSection() {
               background: p.colorType === 0 ? 'rgba(255, 255, 255, 0.6)' :
                          p.colorType === 1 ? 'rgba(192, 192, 192, 0.4)' :
                          'rgba(255, 215, 0, 0.3)',
+              willChange: "transform, opacity",
             }}
             animate={{ opacity: [0, 1, 0], scale: [0, 1.5, 0], y: [0, -100, -200] }}
             transition={{ duration: p.duration, repeat: Infinity, delay: p.delay, ease: "easeOut" }}
@@ -98,7 +110,7 @@ export function HeroSection() {
           <div className="w-full h-full rounded-full bg-gradient-to-br from-[#e5e4e2] via-[#c0c0c0] to-[#808080] metallic-surface border border-white/20 glow-silver" />
         </motion.div>
 
-        {/* Prismatic triangular elements — fewer on mobile */}
+        {/* Prismatic triangular elements */}
         {[...Array(6)].map((_, i) => (
           <motion.div
             key={i}
@@ -164,7 +176,7 @@ export function HeroSection() {
             <Sparkles className="w-5 h-5 sm:w-7 sm:h-7 md:w-8 md:h-8 text-[#ffd700]" />
           </motion.div>
 
-          <h1 className="text-[3.25rem] xs:text-6xl sm:text-7xl md:text-9xl lg:text-[14rem] font-black tracking-tighter text-glow-white mb-6 sm:mb-8 relative leading-none">
+          <h1 className="text-[3.25rem] xs:text-6xl sm:text-7xl md:text-9xl lg:text-[14rem] font-black tracking-tighter text-glow-white mb-4 sm:mb-6 relative leading-none" style={{ fontFamily: 'var(--font-display)' }}>
             <span className="bg-gradient-to-r from-white via-[#e5e4e2] to-[#c0c0c0] bg-clip-text text-transparent">
               {siteConfig.company.name.slice(0, 3)}
             </span>
@@ -181,74 +193,121 @@ export function HeroSection() {
         </motion.div>
 
         <motion.div
-          className="space-y-5 sm:space-y-8"
+          className="space-y-5 sm:space-y-7"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1.2 }}
         >
-          <p className="text-base sm:text-xl md:text-2xl lg:text-3xl text-white/80 max-w-3xl mx-auto leading-relaxed px-2">
+          <p className="text-base sm:text-xl md:text-2xl lg:text-3xl text-white/80 max-w-3xl mx-auto leading-relaxed px-2" style={{ fontFamily: 'var(--font-sans)' }}>
             {siteConfig.company.tagline}
           </p>
 
+          {/* Skill pills */}
           <motion.div
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
+            className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 max-w-2xl mx-auto px-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.5 }}
+          >
+            {skillPills.map((skill, i) => (
+              <motion.span
+                key={skill.label}
+                className="px-3 py-1 text-xs sm:text-sm rounded-full border font-medium tracking-wide"
+                style={{
+                  borderColor: `${skill.color}40`,
+                  color: skill.color,
+                  backgroundColor: `${skill.color}10`,
+                  fontFamily: 'var(--font-sans)',
+                }}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, delay: 1.6 + i * 0.06 }}
+                whileHover={{ scale: 1.08, backgroundColor: `${skill.color}20` }}
+              >
+                {skill.label}
+              </motion.span>
+            ))}
+          </motion.div>
+
+          {/* CTA Buttons */}
+          <motion.div
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-5 pt-2"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 1.8 }}
+            transition={{ duration: 0.8, delay: 1.9 }}
           >
+            {/* Primary CTA — gold gradient fill */}
             <motion.button
-              className="group relative w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-6 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-lg border border-white/20 rounded-full text-white text-base sm:text-lg transition-all duration-500 overflow-hidden"
-              whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(255, 255, 255, 0.3)" }}
+              className="group relative w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 rounded-full text-black text-base sm:text-lg font-semibold overflow-hidden shadow-lg"
+              style={{
+                background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%)',
+                boxShadow: '0 0 30px rgba(255, 215, 0, 0.25)',
+                fontFamily: 'var(--font-sans)',
+              }}
+              whileHover={{ scale: 1.05, boxShadow: "0 0 50px rgba(255, 215, 0, 0.5)" }}
               whileTap={{ scale: 0.95 }}
               aria-label="Explore the portfolio"
               onClick={() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              <span className="relative z-10 flex items-center justify-center space-x-3">
-                <Zap className="w-5 h-5 sm:w-6 sm:h-6" />
-                <span>Enter the Experience</span>
+              <span className="relative z-10 flex items-center justify-center space-x-2">
+                <Zap className="w-5 h-5 sm:w-5 sm:h-5" />
+                <span>View My Work</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </span>
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-[#ffd700]/20 to-white/20"
+                className="absolute inset-0 bg-white/30"
                 initial={{ x: "-100%" }}
                 whileHover={{ x: "100%" }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
               />
             </motion.button>
 
+            {/* Secondary CTA — outlined */}
             <motion.button
-              className="w-full sm:w-auto px-6 sm:px-8 py-4 sm:py-6 border-2 border-white/30 rounded-full text-white/80 hover:text-white hover:border-[#ffd700]/50 transition-all duration-300 text-base sm:text-lg"
-              whileHover={{ scale: 1.05, borderColor: "rgba(255, 215, 0, 0.8)" }}
+              className="w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 border border-white/30 rounded-full text-white/80 hover:text-white hover:border-white/60 transition-all duration-300 text-base sm:text-lg font-medium backdrop-blur-sm"
+              style={{
+                fontFamily: 'var(--font-sans)',
+                backgroundColor: 'rgba(255,255,255,0.04)',
+              }}
+              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.08)" }}
               whileTap={{ scale: 0.95 }}
               aria-label="Learn more about Yubraj Kurmi"
               onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
             >
-              Learn More
+              About Me
             </motion.button>
           </motion.div>
         </motion.div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator — mouse icon style */}
       <motion.div
-        className="absolute bottom-8 sm:bottom-12 left-1/2 transform -translate-x-1/2 flex flex-col items-center space-y-3 sm:space-y-4"
-        animate={{ y: [0, 15, 0] }}
+        className="absolute bottom-8 sm:bottom-12 left-1/2 transform -translate-x-1/2 flex flex-col items-center space-y-3"
+        animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
       >
         <motion.div
           className="text-white/40 text-xs sm:text-sm uppercase tracking-widest"
+          style={{ fontFamily: 'var(--font-sans)' }}
           animate={{ opacity: [0.4, 1, 0.4] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
           Scroll to Explore
         </motion.div>
-        <div className="relative">
-          <ChevronDown className="w-6 h-6 sm:w-8 sm:h-8 text-white/60" />
+        {/* Mouse icon */}
+        <div className="relative w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center pt-1.5">
           <motion.div
-            className="absolute inset-0 bg-gradient-to-b from-transparent to-[#ffd700]/50 rounded-full"
-            animate={{ opacity: [0, 0.8, 0], scale: [1, 1.2, 1] }}
-            transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+            className="w-1.5 h-3 bg-gradient-to-b from-[#ffd700] to-transparent rounded-full"
+            animate={{ y: [0, 8, 0], opacity: [1, 0, 1] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute -inset-1 rounded-full border border-[#ffd700]/20"
+            animate={{ scale: [1, 1.3, 1], opacity: [0.4, 0, 0.4] }}
+            transition={{ duration: 1.8, repeat: Infinity }}
           />
         </div>
+        <ChevronDown className="w-4 h-4 text-white/30" />
       </motion.div>
 
       {/* Ambient lighting */}

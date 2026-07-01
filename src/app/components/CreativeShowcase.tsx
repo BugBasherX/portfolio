@@ -10,7 +10,7 @@ export function CreativeShowcase() {
   const mouseY = useMotionValue(0);
 
   const particles = useMemo(() =>
-    [...Array(80)].map((_, i) => ({
+    [...Array(15)].map((_, i) => ({
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
       width: `${Math.random() * 6 + 2}px`,
@@ -79,6 +79,7 @@ export function CreativeShowcase() {
                 p.colorIndex === 2 ?
                 "linear-gradient(45deg, #c0c0c0, #a8a8a8)" :
                 "linear-gradient(45deg, #ffffff, #ffd700)",
+              willChange: "transform, opacity",
             }}
             animate={{
               opacity: [0.1, 0.8, 0.1],

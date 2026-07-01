@@ -52,6 +52,10 @@
   --koncept-gold: #ffd700;
   --koncept-champagne: #f7e7ce;
   --koncept-pearl: #f8f6f0;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Outfit', 'Inter', system-ui, sans-serif;
 }
 
 .dark {
@@ -154,6 +158,15 @@
     @apply bg-background text-foreground overflow-x-hidden;
     background-color: var(--koncept-black);
     color: white;
+    font-family: var(--font-sans);
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
   }
 }
 

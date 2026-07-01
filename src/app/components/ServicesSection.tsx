@@ -194,7 +194,7 @@ export function ServicesSection() {
     <section id="services" className="min-h-screen py-20 sm:py-32 px-4 sm:px-6 relative overflow-hidden bg-gradient-to-b from-[#000000] to-[#1a1a1a]">
       {/* Background elements */}
       <div className="absolute inset-0">
-        {[...Array(40)].map((_, i) => (
+        {[...Array(12)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full"
@@ -204,6 +204,7 @@ export function ServicesSection() {
               width: `${Math.random() * 3 + 1}px`,
               height: `${Math.random() * 3 + 1}px`,
               backgroundColor: i % 3 === 0 ? "#ffffff40" : i % 3 === 1 ? "#c0c0c040" : "#ffd70040",
+              willChange: "transform, opacity",
             }}
             animate={{
               opacity: [0.2, 0.8, 0.2],

@@ -8,7 +8,7 @@ import logo from 'figma:asset/e9afabb7434f237f121fca51dffa09ee3fce323e.png';
 
 export function Footer() {
   const particles = useMemo(() =>
-    [...Array(60)].map((_, i) => ({
+    [...Array(15)].map((_, i) => ({
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
       width: `${Math.random() * 3 + 1}px`,
@@ -49,6 +49,7 @@ export function Footer() {
                 p.colorIndex === 2 ?
                 "linear-gradient(45deg, #c0c0c0, #a8a8a8)" :
                 "linear-gradient(45deg, #ffffff80, #ffd70080)",
+              willChange: "transform, opacity",
             }}
             animate={{
               opacity: [0.1, 0.8, 0.1],
@@ -74,38 +75,24 @@ export function Footer() {
           transition={{ duration: 1, ease: "easeOut" }}
           viewport={{ once: true }}
         >
-          {/* Decorative header */}
+          {/* Available badge */}
           <motion.div
-            className="flex items-center justify-center space-x-3 sm:space-x-4 mb-6 sm:mb-8"
+            className="flex justify-center"
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
             viewport={{ once: true }}
           >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            >
-              <Diamond className="w-6 h-6 sm:w-8 sm:h-8 text-[#ffd700]" />
-            </motion.div>
-            
-            <div className="w-12 sm:w-24 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
-            
-            <motion.div
-              animate={{ rotate: -360 }}
-              transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-            >
-              <Star className="w-5 h-5 sm:w-6 sm:h-6 text-white/60" />
-            </motion.div>
-            
-            <div className="w-12 sm:w-24 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent" />
-            
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            >
-              <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-[#c0c0c0]" />
-            </motion.div>
+            <div className="inline-flex items-center space-x-2.5 px-5 py-2.5 rounded-full border border-green-500/30 bg-green-500/10">
+              <motion.div
+                className="w-2 h-2 rounded-full bg-green-400"
+                animate={{ scale: [1, 1.4, 1], opacity: [0.8, 1, 0.8] }}
+                transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <span className="text-green-400 text-xs sm:text-sm font-semibold" style={{ fontFamily: 'var(--font-sans)' }}>
+                Available for freelance work
+              </span>
+            </div>
           </motion.div>
 
           {/* Brand logo and name */}

@@ -1,8 +1,8 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { useRef, useState, useMemo, useEffect } from "react";
-import { ExternalLink, Play, Star, Eye, X, Youtube } from "lucide-react";
+import { ExternalLink, Play, X, Youtube, ArrowUpRight, Eye } from "lucide-react";
 import { siteConfig } from "../config/siteConfig";
 
 // Video Player Modal Component
@@ -33,7 +33,6 @@ function VideoModal({ videoId, title, onClose }: { videoId: string; title: strin
         exit={{ scale: 0.8, opacity: 0 }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
         <motion.button
           aria-label="Close video"
           className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/10 transition-colors duration-300"
@@ -43,8 +42,6 @@ function VideoModal({ videoId, title, onClose }: { videoId: string; title: strin
         >
           <X className="w-5 h-5" aria-hidden="true" />
         </motion.button>
-
-        {/* YouTube embed */}
         <iframe
           className="w-full h-full"
           src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
@@ -61,7 +58,6 @@ function VideoModal({ videoId, title, onClose }: { videoId: string; title: strin
 function ProjectCard({ project, index, onVideoClick }: { project: any, index: number, onVideoClick?: (videoId: string, title: string) => void }) {
   const [isHovered, setIsHovered] = useState(false);
   const isVideo = project.type === 'video';
-  const isImage = project.type === 'image';
 
   const handleClick = () => {
     if (isVideo && onVideoClick && project.videoId) {
@@ -71,203 +67,152 @@ function ProjectCard({ project, index, onVideoClick }: { project: any, index: nu
     }
   };
 
-  const gradient =
-    project.accent === "#c0c0c0" ? "from-[#c0c0c0]/20 to-[#c0c0c0]/5" :
-    project.accent === "#ffd700" ? "from-[#ffd700]/20 to-[#ffd700]/5" :
-    "from-white/20 to-white/5";
+  const accentColor =
+    project.accent === "#c0c0c0" ? "#c0c0c0" :
+    project.accent === "#ffd700" ? "#ffd700" :
+    "#ffffff";
 
   return (
     <motion.div
-      className="relative flex-shrink-0 w-[85vw] sm:w-[420px] md:w-[450px] h-[520px] sm:h-[550px] perspective-1000"
-      initial={{ opacity: 0, y: 100 }}
+      className="group relative overflow-hidden rounded-2xl cursor-pointer"
+      style={{ border: `1px solid rgba(255,255,255,0.08)` }}
+      initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: index * 0.1 }}
+      transition={{ duration: 0.6, delay: index * 0.1, ease: "easeOut" }}
       viewport={{ once: true }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
+      onClick={handleClick}
+      whileHover={{ y: -6, borderColor: `${accentColor}30` }}
     >
-      <motion.div
-        className="relative w-full h-full preserve-3d group cursor-pointer"
-        whileHover={{ 
-          rotateX: 5,
-          rotateY: 10,
-          z: 50,
-          transition: { duration: 0.4 }
-        }}
-        onClick={handleClick}
-      >
-        {/* Main project card */}
-        <div className={`absolute inset-0 bg-gradient-to-br ${gradient} backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden backface-hidden`}>
-          
-          {/* Project preview area */}
-          <div className="relative h-56 sm:h-64 bg-black/30 overflow-hidden">
-            {(isVideo || isImage) && project.thumbnailUrl ? (
-              <div className="absolute inset-0">
-                <img 
-                  src={project.thumbnailUrl}
-                  alt={`${project.title} demo screenshot`}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className={`absolute inset-0 ${isImage ? 'bg-black/20 group-hover:bg-black/10' : 'bg-black/40'} transition-colors duration-300`} />
-              </div>
-            ) : (
-              <motion.div
-                className="absolute inset-0"
-                style={{
-                  background: `
-                    radial-gradient(circle at 30% 30%, ${project.accent}15 0%, transparent 50%),
-                    radial-gradient(circle at 70% 70%, ${project.accent}10 0%, transparent 50%),
-                    linear-gradient(45deg, transparent 40%, ${project.accent}05 50%, transparent 60%)
-                  `
-                }}
-              />
-            )}
-
-            {/* Floating dots — only for projects without an image */}
-            {!isVideo && !isImage && [...Array(8)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute rounded-full opacity-20"
-                style={{
-                  left: `${20 + i * 10}%`,
-                  top: `${30 + Math.sin(i) * 20}%`,
-                  width: `${10 + (i % 3) * 8}px`,
-                  height: `${10 + (i % 3) * 8}px`,
-                  backgroundColor: project.accent,
-                }}
-                animate={{
-                  y: isHovered ? [0, -20, 0] : [0, 0, 0],
-                  opacity: isHovered ? [0.2, 0.6, 0.2] : [0.2, 0.2, 0.2],
-                }}
-                transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
-              />
-            ))}
-
-            {/* Play overlay — only for actual video type */}
-            {isVideo && (
-              <motion.div
-                className="absolute inset-0 flex items-center justify-center"
-                animate={{ opacity: isHovered ? 1 : 0.8, scale: isHovered ? 1.1 : 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                <motion.div
-                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full backdrop-blur-sm border border-white/20 flex items-center justify-center bg-red-600/80"
-                  whileHover={{ scale: 1.1, backgroundColor: '#dc2626' }}
-                >
-                  <Youtube className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
-                </motion.div>
-              </motion.div>
-            )}
-
-            {/* VIDEO badge — only for video type */}
-            {isVideo && (
-              <div className="absolute top-4 sm:top-6 left-4 sm:left-6 px-3 py-1 bg-red-600 rounded-full text-white text-xs font-semibold flex items-center space-x-1">
-                <Youtube className="w-3 h-3" />
-                <span>VIDEO</span>
-              </div>
-            )}
-
-            {/* Corner accent dot */}
-            <div 
-              className="absolute top-4 sm:top-6 right-4 sm:right-6 w-3 h-3 rounded-full opacity-60"
-              style={{ backgroundColor: project.accent }}
+      {/* Thumbnail */}
+      <div className="relative h-52 sm:h-60 overflow-hidden bg-black/40">
+        {project.thumbnailUrl ? (
+          <>
+            <motion.img
+              src={project.thumbnailUrl}
+              alt={`${project.title} screenshot`}
+              className="w-full h-full object-cover"
+              animate={{ scale: isHovered ? 1.07 : 1 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
             />
-          </div>
-
-          {/* Project info */}
-          <div className="p-5 sm:p-8 space-y-4 sm:space-y-6">
-            <div className="flex justify-between items-start">
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center space-x-2 sm:space-x-3 mb-2">
-                  <h3 className="text-xl sm:text-2xl font-black text-white group-hover:text-glow-white transition-all duration-300 truncate">
-                    {project.title}
-                  </h3>
-                  <div 
-                    className="w-2 h-2 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: project.accent }}
-                  />
-                </div>
-                
-                <p className="text-xs sm:text-sm text-white/60 uppercase tracking-wider mb-3 sm:mb-4">
-                  {project.category} • {project.year}
-                </p>
-                
-                <p className="text-sm sm:text-base text-white/70 leading-relaxed group-hover:text-white/90 transition-colors duration-300 line-clamp-2 sm:line-clamp-none">
-                  {project.description}
-                </p>
-              </div>
-
-              <motion.div
-                className="ml-3 sm:ml-4 flex-shrink-0"
-                whileHover={{ scale: 1.1, rotate: 10 }}
-              >
-                {isVideo ? (
-                  <Youtube className="w-5 h-5 sm:w-6 sm:h-6 text-white/40 group-hover:text-red-500 transition-colors duration-300" />
-                ) : (
-                  <ExternalLink className="w-5 h-5 sm:w-6 sm:h-6 text-white/40 group-hover:text-white transition-colors duration-300" aria-hidden="true" />
-                )}
-              </motion.div>
-            </div>
-
-            {/* Bottom row with technologies and action button */}
-            <div className="flex justify-between items-center pt-3 sm:pt-4 border-t border-white/10">
-              <div className="flex items-center space-x-1 sm:space-x-2 overflow-hidden">
-                {project.technologies?.slice(0, 2).map((tech: string, i: number) => (
-                  <span 
-                    key={i}
-                    className="px-2 py-1 text-xs bg-white/10 text-white/70 rounded-full whitespace-nowrap"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-
-              <motion.div
-                className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs uppercase tracking-wider border flex-shrink-0 ml-2"
-                style={{ 
-                  borderColor: `${project.accent}30`,
-                  backgroundColor: `${project.accent}10`,
-                  color: project.accent
-                }}
-                whileHover={{
-                  backgroundColor: `${project.accent}20`,
-                  borderColor: `${project.accent}50`,
-                }}
-              >
-                {isVideo ? 'Watch' : 'View'}
-              </motion.div>
-            </div>
-          </div>
-
-          {/* Hover glow effect */}
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+          </>
+        ) : (
           <motion.div
-            className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none blur-xl -z-10"
-            style={{ 
-              background: `linear-gradient(135deg, ${project.accent}20, transparent)`,
+            className="absolute inset-0"
+            style={{
+              background: `
+                radial-gradient(circle at 30% 30%, ${accentColor}15 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, ${accentColor}10 0%, transparent 50%)
+              `
             }}
           />
+        )}
+
+        {/* Hover reveal overlay */}
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center"
+          animate={{ opacity: isHovered ? 1 : 0 }}
+          transition={{ duration: 0.25 }}
+          style={{ backgroundColor: 'rgba(0,0,0,0.55)' }}
+        >
+          <motion.div
+            className="w-14 h-14 rounded-full border-2 flex items-center justify-center backdrop-blur-sm"
+            style={{ borderColor: accentColor }}
+            animate={{ scale: isHovered ? 1 : 0.7 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+          >
+            {isVideo
+              ? <Play className="w-6 h-6 ml-1" style={{ color: accentColor }} />
+              : <Eye className="w-6 h-6" style={{ color: accentColor }} />
+            }
+          </motion.div>
+        </motion.div>
+
+        {/* Video badge */}
+        {isVideo && (
+          <div className="absolute top-3 left-3 px-2.5 py-1 bg-red-600/90 backdrop-blur-sm rounded-full text-white text-xs font-semibold flex items-center space-x-1">
+            <Youtube className="w-3 h-3" />
+            <span>VIDEO</span>
+          </div>
+        )}
+
+        {/* Accent dot */}
+        <div
+          className="absolute top-3 right-3 w-2.5 h-2.5 rounded-full"
+          style={{ backgroundColor: accentColor, boxShadow: `0 0 8px ${accentColor}` }}
+        />
+      </div>
+
+      {/* Card body */}
+      <div className="p-5 sm:p-6 space-y-3" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.04), rgba(0,0,0,0.4))' }}>
+        {/* Category + year */}
+        <div className="flex items-center justify-between">
+          <span className="text-[10px] sm:text-xs uppercase tracking-widest" style={{ color: accentColor, fontFamily: 'var(--font-sans)' }}>
+            {project.category}
+          </span>
+          <span className="text-xs text-white/30" style={{ fontFamily: 'var(--font-sans)' }}>
+            {project.year}
+          </span>
         </div>
 
-        {/* Card shadow */}
-        <div 
-          className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-40 transition-opacity duration-300 blur-2xl -z-20"
-          style={{ 
-            backgroundColor: `${project.accent}30`,
-            transform: "translateY(30px) scale(0.9)" 
-          }}
-        />
-      </motion.div>
+        {/* Title */}
+        <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-glow-white transition-all duration-300 leading-tight" style={{ fontFamily: 'var(--font-display)' }}>
+          {project.title}
+        </h3>
+
+        {/* Description */}
+        <p className="text-sm text-white/60 leading-relaxed line-clamp-2" style={{ fontFamily: 'var(--font-sans)' }}>
+          {project.description}
+        </p>
+
+        {/* Footer row */}
+        <div className="flex items-center justify-between pt-3 border-t border-white/8">
+          {/* Tech pills */}
+          <div className="flex flex-wrap gap-1.5">
+            {project.technologies?.slice(0, 3).map((tech: string, i: number) => (
+              <span
+                key={i}
+                className="px-2 py-0.5 text-[10px] rounded-full border text-white/50"
+                style={{ borderColor: 'rgba(255,255,255,0.1)', fontFamily: 'var(--font-sans)' }}
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <motion.div
+            className="flex items-center space-x-1 text-xs font-medium flex-shrink-0"
+            style={{ color: accentColor, fontFamily: 'var(--font-sans)' }}
+            animate={{ x: isHovered ? 3 : 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <span>{isVideo ? 'Watch' : 'View'}</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Bottom accent glow on hover */}
+      <motion.div
+        className="absolute bottom-0 left-0 right-0 h-0.5 rounded-b-2xl"
+        style={{ background: `linear-gradient(90deg, transparent, ${accentColor}60, transparent)` }}
+        animate={{ opacity: isHovered ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+      />
     </motion.div>
   );
 }
 
 export function PortfolioSection() {
   const sectionRef = useRef(null);
-  const scrollRef = useRef(null);
   const [selectedVideo, setSelectedVideo] = useState<{ videoId: string; title: string } | null>(null);
 
   const bgParticles = useMemo(() =>
-    [...Array(30)].map((_, i) => ({
+    [...Array(8)].map((_, i) => ({
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
       width: `${Math.random() * 100 + 50}px`,
@@ -276,13 +221,6 @@ export function PortfolioSection() {
       duration: 6 + Math.random() * 4,
       delay: Math.random() * 3,
     })), []);
-  
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-
-  const x = useTransform(scrollYProgress, [0, 1], [0, -400]);
 
   const handleVideoClick = (videoId: string, title: string) => {
     setSelectedVideo({ videoId, title });
@@ -293,7 +231,7 @@ export function PortfolioSection() {
   };
 
   return (
-    <section 
+    <section
       id="portfolio"
       ref={sectionRef}
       className="min-h-screen py-20 sm:py-32 relative overflow-hidden"
@@ -316,108 +254,104 @@ export function PortfolioSection() {
               top: p.top,
               width: p.width,
               height: p.height,
-              background: p.colorIndex === 0 ? 
+              background: p.colorIndex === 0 ?
                 "radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)" :
                 p.colorIndex === 1 ?
                 "radial-gradient(circle, rgba(192,192,192,0.1) 0%, transparent 70%)" :
                 "radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%)",
+              willChange: "transform, opacity",
             }}
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.1, 0.3, 0.1],
-            }}
-            transition={{
-              duration: p.duration,
-              repeat: Infinity,
-              delay: p.delay,
-              ease: "easeInOut",
-            }}
+            animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.3, 0.1] }}
+            transition={{ duration: p.duration, repeat: Infinity, delay: p.delay, ease: "easeInOut" }}
           />
         ))}
       </div>
 
-      {/* Header */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-10 sm:mb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        {/* Header */}
         <motion.div
-          className="text-center"
+          className="text-center mb-12 sm:mb-16"
           initial={{ opacity: 0, y: 100 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
           viewport={{ once: true }}
         >
+          {/* Section badge */}
+          <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full border border-white/20 bg-white/5 mb-6">
+            <div className="w-1.5 h-1.5 rounded-full bg-white/60 animate-pulse" />
+            <span className="text-white/70 text-xs font-semibold uppercase tracking-widest" style={{ fontFamily: 'var(--font-sans)' }}>
+              Portfolio
+            </span>
+          </div>
+
           <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-none mb-6 sm:mb-8">
-            <span className="text-white">My</span>
+            <span className="text-white">Selected</span>
             <br />
             <span className="bg-gradient-to-r from-white via-[#c0c0c0] to-[#ffd700] bg-clip-text text-transparent">
-              Portfolio
+              Projects
             </span>
           </h2>
 
-          <div className="w-32 h-1 bg-gradient-to-r from-[#ffd700] via-white to-transparent mx-auto mb-6 sm:mb-8" />
-          
-          <p className="text-base sm:text-lg md:text-2xl text-white/70 max-w-4xl mx-auto leading-relaxed px-2">
-            Showcasing my <span className="text-[#ffd700]">web development</span> and 
-            <span className="text-white"> graphic design projects</span>
+          <div className="w-32 h-1 bg-gradient-to-r from-[#ffd700] via-white to-transparent mx-auto mb-6 sm:mb-8 rounded-full" />
+
+          <p className="text-base sm:text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed px-2" style={{ fontFamily: 'var(--font-sans)' }}>
+            A curated collection of my{" "}
+            <span className="text-[#ffd700]">web development</span> and{" "}
+            <span className="text-white">graphic design</span> work
           </p>
         </motion.div>
-      </div>
 
-      {/* Horizontal scrolling portfolio */}
-      <div className="relative">
-        <motion.div 
-          ref={scrollRef}
-          className="flex space-x-6 sm:space-x-8 px-4 sm:px-6"
-          style={{ x }}
-        >
+        {/* Projects grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 sm:gap-8">
           {siteConfig.portfolio.map((project, index) => (
-            <ProjectCard 
-              key={project.id} 
-              project={project} 
+            <ProjectCard
+              key={project.id}
+              project={project}
               index={index}
               onVideoClick={handleVideoClick}
             />
           ))}
-        </motion.div>
+        </div>
 
-        {/* Scroll indicators */}
+        {/* CTA */}
         <motion.div
-          className="text-center mt-10 sm:mt-16"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
+          className="text-center mt-12 sm:mt-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
           viewport={{ once: true }}
         >
-          <p className="text-white/40 text-xs sm:text-sm uppercase tracking-wider mb-3 sm:mb-4">
-            Scroll to explore my projects
+          <p className="text-white/40 text-sm mb-6" style={{ fontFamily: 'var(--font-sans)' }}>
+            Interested in working together?
           </p>
-          <div className="flex justify-center space-x-2">
-            {siteConfig.portfolio.map((_, i) => (
-              <motion.div
-                key={i}
-                className="w-2 h-2 rounded-full bg-white/20"
-                animate={{
-                  backgroundColor: i % 3 === 0 ? "#ffffff40" : i % 3 === 1 ? "#c0c0c040" : "#ffd70040",
-                  scale: [1, 1.2, 1],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  delay: i * 0.2,
-                }}
-              />
-            ))}
-          </div>
+          <motion.button
+            className="group relative px-8 sm:px-12 py-4 sm:py-5 rounded-full text-black font-semibold overflow-hidden text-sm sm:text-base"
+            style={{
+              background: 'linear-gradient(135deg, #ffd700 0%, #ffed4e 100%)',
+              fontFamily: 'var(--font-sans)',
+            }}
+            whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(255, 215, 0, 0.4)" }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+          >
+            <span className="relative z-10 flex items-center space-x-2">
+              <span>Start a Project</span>
+              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </span>
+          </motion.button>
         </motion.div>
       </div>
 
       {/* Video Modal */}
-      {selectedVideo && (
-        <VideoModal
-          videoId={selectedVideo.videoId}
-          title={selectedVideo.title}
-          onClose={closeVideoModal}
-        />
-      )}
+      <AnimatePresence>
+        {selectedVideo && (
+          <VideoModal
+            videoId={selectedVideo.videoId}
+            title={selectedVideo.title}
+            onClose={closeVideoModal}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }
